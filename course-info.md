@@ -66,7 +66,7 @@ Throughout the course we will use
 
 ## Staff
 
-- lecturer: [prof. Uroš Lotrič](https://fri.uni-lj.si/en/about-faculty/employees/uros-lotric)
+- lecturer: [Uroš Lotrič](https://fri.uni-lj.si/en/about-faculty/employees/uros-lotric)
 - assistant: [Davor Sluga](https://fri.uni-lj.si/sl/o-fakulteti/osebje/davor-sluga)
 
 ## Grading
