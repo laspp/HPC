@@ -2,14 +2,14 @@
 
 ## Objectives
 
-- Get the theoretical and practical knowledge from the areas of parallel and distributed systems, parallel programming and processing, needed to excel the computation of the problem at hand using modern computing platforms and tools.
-- Parallelize problems from science and engineering by structuring the problem, choosing the appropriate hardware and programming concept to generate an efficient solution.
-- Gain knowledge to work with national high performance infrastructure.
+- Get the theoretical and practical knowledge from the areas of parallel and distributed systems, parallel programming and processing, to effectively tackle computational problems using modern computing platforms and tools.  
+- Parallelize scientific and engineering problems by structuring them correctly, selecting the appropriate hardware, and applying suitable programming concepts to produce efficient solutions.  
+- Gain knowledge to work with the national high-performance infrastructure.
 
 ## Outcomes
 
 - Hands-on experience with modern parallel computing architectures.
-- Knowledge of choosing a proper hardware architecture to speed-up an algorithm at hand.
+- Knowledge of choosing a proper hardware architecture to speed up an algorithm at hand.
 - Ability to transform algorithms from the computational area to efficient programming code for modern computing architectures.
 - Skills to compute and manage data on large-scale national infrastructural systems.
 - Skills to analyze code with respect to performance and suggest and implement performance improvements.
@@ -52,8 +52,8 @@ Throughout the course we will use
 
 - a supercomputer,
 - Linux operating system,
-- programming language C with necessary libraries
-- development environment VSCode
+- C programming language along with necessary libraries
+- VSCode development environment 
 
 ## Literature
 
