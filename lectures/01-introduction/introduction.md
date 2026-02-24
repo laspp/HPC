@@ -7,7 +7,8 @@
   - simulations help us better understand nature
   - simulations are much more cost and time effective compared to real-world experiments
   - applications
-    - weather forecasting, material sciences, nuclear physics,
+    - weather forecasting, material sciences,
+    - high-energy physics, astrophysics, nuclear physics,
     - chemistry, lattice QCD, biochemistry, life sciences, genomics, medicine
 
 - data analytics
@@ -16,7 +17,7 @@
   - confirmation of models
   - statistical and artificial intelligence modelling
   - applications:
-    - high-energy physics, astrophysics,
+
     - artificial intelligence, deep learning
     - image and signal processing, computer vision, robotics
 
@@ -47,11 +48,6 @@
       - AlmaLinux
       - user specific SW in modules
       - light virtualization (Apptainer)
-  - Slovenia HPC fan club
-    - Slovenian Environmental Agency
-    - Institute Jožef Stefan
-    - National Institute of Chemistry
-    - Universities (UL FS, UL FRI, UL FE, UM)
   - HPC applications
     - examples:
       - CERN: CMS, ATLAS
@@ -89,7 +85,7 @@
 - for a long time (until 2004), the performance of computer systems increased through miniaturization (relays, vacuum tubes, increasingly smaller and more numerous transistors, raising the clock frequency) and improvements in hardware.
 - Dennard scaling applied: reducing the size of a transistor by half increases their number fourfold, each transistor operates twice as fast (shorter connections), while the amount of dissipated heat remains unchanged
 - characteristics of processors over time ([graph](https://www.karlrupp.net/2018/02/42-years-of-microprocessor-trend-data/))
-- Moore’s law: system performance doubles every 18 months ([graf](https://en.wikipedia.org/wiki/Transistor_count#/media/File:Moore's_Law_Transistor_Count_1970-2020.png))
+- Moore’s law: system performance doubles every 18 months ([graph](https://en.wikipedia.org/wiki/Transistor_count#/media/File:Moore's_Law_Transistor_Count_1970-2020.png))
 - a problem arises with heat dissipation when processor power consumption exceeds 130 W
 - multi‑core architectures begin to appear after 2004, which are more energy‑efficient
 - by increasing the number of processor cores, the validity of Moore’s law is maintained
@@ -117,27 +113,29 @@
 
 ## Three walls in 2025
 
-key limitations that led to multi‑core processors:
+- key limitations that led to multi‑core processors:
 
-- power consumption limits
-- limits of parallelism inside a single processor
-  - pipelining
-  - speculative execution
-  - super-scalar processors
-- memory bandwidth limitations
-  - processors are much faster than memory
-  - caches help, but things get complicated on multi‑core processors
-  - scalability problems
-- support for developing parallel software
-  - despite many years of research, automatic parallelization does not work well
-  - compilers capable of automatically converting our sequential programs into parallel ones are still in development and perform poorly
-  - libraries that support parallelization
-  - new programming languages with built‑in support for parallelism
-- solution
-  - to make good use of new architectures, we must write parallel programs
-  - new processors include mechanisms that can be efficiently run parallel programs (hardware threads)
-  - to achieve good results, we must understand the architecture well
-  - how to write code that will remain efficient on future processors
+  - power consumption limits
+  - limits of parallelism inside a single processor
+    - pipelining
+    - speculative execution
+    - super-scalar processors
+  - memory bandwidth limitations
+    - processors are much faster than memory
+    - caches help, but things get complicated on multi‑core processors
+    - scalability problems
+
+- state of the software
+  - support for developing parallel software
+    - despite many years of research, automatic parallelization does not work well
+    - compilers capable of automatically converting our sequential programs into parallel ones are still in development and perform poorly
+    - libraries that support parallelization
+    - new programming languages with built‑in support for parallelism
+  - solution
+    - to make good use of new architectures, we must write parallel programs
+    - new processors include mechanisms that can be efficiently run parallel programs (hardware threads)
+    - to achieve good results, we must understand the architecture well
+    - how to write code that will remain efficient on future processors
 
 ## Historical trends
 
@@ -146,7 +144,7 @@ key limitations that led to multi‑core processors:
   - great sophistication in mainframe and vector supercomputers (late 1980)
   
 - miniaturization
-  - Intel 4004 4-bit microprocessor with 2,300 transistors
+  - Intel 4004: 4-bit microprocessor with 2,300 transistors
   - Today million times more transistors, a lot of potential
   - Improvements over the years:
     - word sizes,
@@ -156,13 +154,12 @@ key limitations that led to multi‑core processors:
 - term supercomputer is first used during development of [Cray-1](https://en.wikipedia.org/wiki/Cray-1), 1976, 10 mio. USD, Los Alamos National Laboratory
 - at the end of seventies, they are introduced to petrol and automotive industry
 - in eighties they come to business world
-- Why?
   - faster computations gives competitive advantage
   - less experiments means cheaper development
   - faster development of new products
 - first supercomputers were vector computers
   - high price, slow development
-  - last machine in Slovenia: [CONVEX SP1000/XA-64](https://www.openpa.net/systems/convex_spp1000_spp1200_spp1600_cd-xa.html), 1992
+  - last purchased system in Slovenia: [CONVEX SP1000/XA-64](https://www.openpa.net/systems/convex_spp1000_spp1200_spp1600_cd-xa.html), 1992
 - today supercomputers are distributed computer systems
   - massive production, faster development
   - cheaper systems, step-by-step upgrade

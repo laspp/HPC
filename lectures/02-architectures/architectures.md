@@ -26,7 +26,7 @@
   - exploiting spatial and temporal locality
   - cache hits and misses
     - example: accessing a matrix
-  - where to copy data from main memory
+  - where in cache to copy data from main memory
     - delete the oldest cache line
     - associative: all locations are equivalent
     - set‑associative: a subset of available locations
@@ -65,26 +65,27 @@
   - exploit parallelism within a single instruction stream
   - example: two units, one is working on odd and one on even iterations of a for loop
 - very large instruction word (VLIW)
-  - at a compile time many independent operations are grouped together
+  - at the compile time many independent operations are grouped together
   - instruction words 64 – 1024 bits
 - superscalar execution
   - parallel execution of independent instructions
   - allocation of functional units is dynamic, at runtime (for non-superscalar processors is static, at compile time)
-  - example: parallel arithmetic units with dynamic allocation
-  - example: speculative execution
-    - during conditional execution, instructions that follow can already be executed
+  - examples:
+    - parallel arithmetic units with dynamic allocation
+    - speculative execution
+      - during conditional execution, instructions that follow can already be executed
   
-    ```C
-    if (x > 0) {
-      z = x + y;
-      w = x;
-    }
-    else {
-      w = y;
-    }
-    ```
+        ```C
+        if (x > 0) {
+          z = x + y;
+          w = x;
+        }
+        else {
+          w = y;
+        }
+        ```
 
-    - `if (x > 0)` and assignment `z = x + y` are performed in parallel
+      - `if (x > 0)` and assignment `z = x + y` are performed in parallel
 - hardware multithreading
   - no need to search for parallelism in sequential thread (in many cases does not exist)
   - simultaneous multithreading (instructions from multiple threads are fed to superscalar scheduler  dynamically, at runtime
@@ -141,12 +142,12 @@
     - slow execution
     - packing groups of threads with the same result of condition to avoid masking
 
-    ```C
-    if (a & 1)
-      a = 3*a + 1;
-    else
-      a = a/2;
-    ```
+      ```C
+      if (a & 1)
+        a = 3*a + 1;
+      else
+        a = a/2;
+      ```
 
 - poor scalability  
 
@@ -217,7 +218,7 @@
   - accelerators on some nodes
   - message passing between nodes
 
-  <img src="figures/heterogeneous-system.png" alt="Modern computing system" width="75%">
+    <img src="figures/heterogeneous-system.png" alt="Modern computing system" width="75%">
 
 - programming
   - reflects hardware organization
@@ -229,4 +230,3 @@
 - overview: [top500.org](https://www.top500.org/statistics/overtime/)
   - category: architecture
   - type: systems share
- 
