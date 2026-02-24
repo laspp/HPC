@@ -41,7 +41,7 @@
     - Offer computational capacities to industry
     - International cooperation
   - Arnes cluster
-    - [hardware]((https://www.sling.si/en/arnes-hpc-cluster/)
+    - [hardware](https://www.sling.si/en/arnes-hpc-cluster/)
     - software
       - SLURM batch system
       - AlmaLinux
