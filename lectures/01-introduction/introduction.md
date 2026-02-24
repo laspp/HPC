@@ -90,7 +90,7 @@
 - characteristics of processors over time ([graph](https://www.karlrupp.net/2018/02/42-years-of-microprocessor-trend-data/))
 - Moore’s law: system performance doubles every 18 months ([graph](https://en.wikipedia.org/wiki/Transistor_count#/media/File:Moore's_Law_Transistor_Count_1970-2020.png))
 - a problem arises with heat dissipation when processor power consumption exceeds 130 W
-- multi‑core architectures begin to appear after 2004, which are more energy‑efficient
+- multi‑core architectures begin to appear around mid-2000s, which are more energy‑efficient
 - by increasing the number of processor cores, the validity of Moore’s law is maintained
 
 ## Multi-core processors are more energy efficient than single-core ones
