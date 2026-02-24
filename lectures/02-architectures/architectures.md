@@ -4,7 +4,7 @@
 
 - central processing unit or processor, memory, I/O devices
 
-  <img src="figures/vonNeumann.png" alt="von Neumannov architecture" width="60%">
+  <img src="figures/vonNeumann.png" alt="von Neumannov architecture" width="50%">
 
 - operation: fetch instruction, decode, fetch operands, execute, store
 - sequential execution of instructions
@@ -15,7 +15,7 @@
 
 ### Memory hierarchy
 
-<img src="figures/memory-hierarchy.png" alt="memory hierarchy" width="50%">
+<img src="figures/memory-hierarchy.png" alt="memory hierarchy" width="40%">
 
 - a processor with registers (P), cache (C), main memory (M), and virtual memory (VM)
 - access to main memory is two orders of magnitude slower than access to registers (latency and bandwidth)
@@ -200,7 +200,7 @@
 
 - single instruction, multiple threads
 
-  <img src="figures/accelerator.png" alt="Accelerators (GPUs)" width="35%">
+  <img src="figures/accelerator.png" alt="Accelerators (GPUs)" width="25%">
 
 - offload processing
   - host sends data to accelerator
@@ -217,7 +217,7 @@
   - accelerators on some nodes
   - message passing between nodes
 
-  <img src="figures/heterogeneous-system.png" alt="Modern computing system" width="60%">
+  <img src="figures/heterogeneous-system.png" alt="Modern computing system" width="75%">
 
 - programming
   - reflects hardware organization
