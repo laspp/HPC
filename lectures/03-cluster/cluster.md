@@ -5,7 +5,7 @@
 - in previous chapter we only focused on the compute nodes
 - the architecture of typical cluster is as follows
 
-  <img src="figures/cluster.png" alt="Shema of a cluster" width="90%">
+  <img src="figures/cluster.png" alt="Shema of a cluster" width="80%">
 
   - the head nodes keeps the whole cluster running in a coordinated manner - it runs programs that monitor the status of other nodes, distribute jobs to compute nodes, supervise job execution, and perform other management tasks
 
@@ -21,7 +21,7 @@
 
 - the main software components:
 
-  <img src="figures/swstack.png" alt="Cluster SW stack" width="90%">
+  <img src="figures/swstack.png" alt="Cluster SW stack" width="70%">
 
   - operating system
     - performs basic tasks such as memory management, processor management, device control, file system management, security functions, system operation control, resource usage monitoring, and error detection
@@ -69,7 +69,7 @@
 - hardware virtualization (virtual machines) and operating system virtualization (containers)
 - for clusters, container-based virtualization is more suitable
 
-  <img src="figures/containers.png" alt="Containers" width="90%">
+  <img src="figures/containers.png" alt="Containers" width="70%">
 
   - containers do not include an operating system, but only the necessary user software and essential libraries making the container images smaller
   - a container manager can start and stop containers efficiently
@@ -107,26 +107,125 @@
     - complex scheduling algorithms
     - resource time-limit
 
-- architecture (image from [the SLURM website](https://slurm.schedmd.com/overview.html))
+#### SLURM architecture
 
-  <img src="figures/slurm.gif" alt="SLURM architecture (source: https://slurm.schedmd.com/overview.html)" width="90%">
+- image from [the SLURM website](https://slurm.schedmd.com/overview.html)
 
-  - Slurmctld deamon on management node
-    - monitors resources
-    - manages job queues
-    - allocates resources
-    - optional fail-over twin
-  - Slurmd deamon runs on each node
-    - similar to remote shell
-    - waits for work, executes work, reports status
-    - hierarchical concept
-    - fault-tolerant communication
-    - starts Slurmstepd deamon
-  - Slurmstepd deamon runs a job on a node
-  - Slurmdbs
-    - database deamon to record accounting information
-  - Usertools
-    - sinfo, scontrol: information about the cluster
-    - squeue: list of jobs in a queue
-    - sstat, sacct: statistics of running and finishsed jobs
-    - srun, sbatch, salloc, scancel: working with jobs (starting, cancelling)
+  <img src="figures/slurm.gif" alt="SLURM architecture (source: https://slurm.schedmd.com/overview.html)" width="70%">
+
+- Slurmctld deamon on management node
+  - monitors resources
+  - manages job queues
+  - allocates resources
+  - optional fail-over twin
+- Slurmd deamon runs on each node
+  - similar to remote shell
+  - waits for work, executes work, reports status
+  - hierarchical concept
+  - fault-tolerant communication
+  - starts Slurmstepd deamon
+- Slurmstepd deamon runs a job on a node
+- Slurmdbs
+  - database deamon to record accounting information
+- Usertools
+  - information about the cluster
+  - list of jobs in a queue
+  - statistics of running and finishsed jobs
+  - working with jobs (starting, cancelling)
+
+#### SLURM Entities
+
+- nodes: compute resources
+- partitions: logical sets of nodes
+  - one node can reside in multiple partitions
+  - one job queue per partition with configured limitations (size, time, users, …)
+- jobs: allocations of resources assigned to a user for a specified amount of time
+- job steps: sets of (possibly parallel) tasks within a job
+
+#### SLURM jobs
+
+- jobs are allocated nodes within a partition (according to the priorities) until the resources (nodes, processors, memory, etc.) within that partition are exhausted
+- once a job is assigned a set of nodes, the user is able to initiate parallel work in the form of job steps
+  - a single job step may be started that utilizes all nodes allocated to the job
+  - several job steps may independently use a portion of the allocation
+- multiple job steps can be simultaneously submitted as they queued until there are available resources within the job's allocation
+- a job lifecycle
+
+  <img src="figures/jobs.png" alt="SLURM job lifecycle" width="70%">
+
+  - job states:
+    - pending (PD), running (R), completing (CG), completed (CD),
+    - failed (F), timeout (TO), suspended (S), revoked (RV), cancelled (CA),
+    - node failure (NF), special exit (SE), configuring (CF)
+
+#### Important commands
+
+- sinfo: information on node state
+  - down, draining, drained, failing, fail, reboot, maintenance, power, ...
+  - idle, allocated, mixed, completing, reserved
+    - idle: all cores are available on the compute node
+    - mix: at least one core is available on the compute node
+    - alloc: all cores on the compute node are assigned to jobs
+    - *: node is not responding, will not take new workload  
+- squeue: status of jobs and job steps
+- srun: create job allocation and launch job steps
+  - blocks the shell
+- sbatch: submit script for later execution (batch mode)
+  - does not block the shell
+  - many possibilities for job specification
+    - job dependence (flag --dependency)
+    - run many jobs with different params
+- salloc: starts the shell on the first node that corresponds to the given requirements
+  - interactive work
+  - resources are specified in the same way as for srun/sbatch
+  - exit to release resources
+- scontrol: job control (hold, release, show nodes, ,,,), system config
+- sstat: statistics of active job
+- sacct: statistics of active and finished jobs
+
+#### SLURM examples
+
+- running four tasks on the same and on two nodes
+
+  ```bash
+  srun --ntasks=4 hostname
+  srun --ntasks=4 --nodes=2 hostname
+  ```
+
+- running a batch job (from files folder) and chacking the queue status
+
+  ```bash
+  sbatch hn.sh
+  squeue --me
+  ```
+
+- interactive work
+
+  ```bash
+  salloc --ntasks=2
+  srun hostname
+  exit
+  ```
+
+- using modules
+
+  ```bash
+  module spider
+  echo $PATH
+  srun ffmpeg -version
+  module load FFmpeg
+  module list
+  echo $PATH
+  srun ffmpeg -version
+  
+  srun ffmpeg -y -i llama.mp4 llama.mp3
+  sacct --job=<job id> --format=job,cputime,elapsed,AveRSS,AveVMSize,MaxRSS,MaxVMSize
+  ```
+
+- using containers
+
+  ```bash
+  apptainer pull docker://jrottenberg/ffmpeg:alpine
+  srun apptainer exec ffmpeg_alpine.sif ffmpeg -version
+  srun apptainer exec ffmpeg_alpine.sif ffmpeg -y -i llama.mp4 llama.mp3
+  ```
