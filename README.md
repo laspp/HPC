@@ -22,6 +22,6 @@
 - Week 03:
   - lectures:
     [pattern: map](lectures/05-patterns-map/patterns-map.md),
-    [shared-memory systens](lectures/06-shared-memory-systems/shared-memory-systems.md),
+    [shared-memory systems](lectures/06-shared-memory-systems/shared-memory-systems.md),
     [OpenMP](lectures/07-openmp-1/openmp-1.md)
   - labs:
