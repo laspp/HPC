@@ -10,6 +10,5 @@
 #SBATCH --time=10:00
 #SBATCH --mem-per-cpu=100
 #SBATCH --array=0-3
-#SBATCH --reservation=fri
 
 srun ./pimc 256 $SLURM_ARRAY_TASK_ID

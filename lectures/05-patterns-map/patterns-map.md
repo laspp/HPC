@@ -55,9 +55,9 @@
 
     <img src="figures/MonteCarloPi.png" alt="Monte Carlo Pi" width="70%">
 
-  - statistics of $shots$ and $hits# - $shots$ inside the circle
+  - statistics of $shots$ and $hits# - $shots$ inside the circular quadrant
   - ration $hits/shots$ is proportional to $\pi/4$
-  - slow convergence, relative accuracy is $1/\square{shots}$
+  - slow convergence, relative error is proportional to $1/\square{shots}$
   - a basic unit of work that can be parallelized is one shot
     - a lot of overhead
     - better is to combine several shots to one task
@@ -108,7 +108,7 @@
 
     <img src="figures/fusion-cache.png" alt="Cache fusion" width="70%">
 
-- code fusion is preferred
+<!--
 
 ### Example: The Sieve of Erathostenes
 
@@ -127,6 +127,8 @@
   - ```soe_chunk```: one core, sequentially chunk-by-chunk ([soe_chunks.c](files/soe/soe_chunks.c) and [soe_chunks.sh](files/soe/soe_chunks.sh))
   - ```soe_range```: multi core, iterating over the whole range covered by a core ([soe_range.c](files/soe/soe_range.c) and [soe_range.sh](files/soe/soe_range.sh))
   - ```soe_range_chunk```: multi core, sequentially chunk-by-chunk ([soe_range_chunks.sh](files/soe/soe_range_chunks.sh))
+
+-->
 
 ## Patterns Related to Map
 

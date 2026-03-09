@@ -9,6 +9,5 @@
 #SBATCH --ntasks-per-core=1
 #SBATCH --time=10:00
 #SBATCH --mem-per-cpu=100
-#SBATCH --reservation=fri
 
 srun ./pimc 1024 0
