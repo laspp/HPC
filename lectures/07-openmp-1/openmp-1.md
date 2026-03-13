@@ -145,9 +145,25 @@
 - critical section: only one thread enters critical section at once
 - directives ```critical``` and ```atomic```
   - prevent race condition
-  - ```atomic```
-    - applicable only to scalar variable assignment with operators ++, --, +=, -=, *=, /=, &=, |=, <<=, >>=
-    - faster than critical
+
+  - hardware implementation
+    - modern processors do not lock memory bus, but works on cache line
+    - works together with the MESI cache coherence mechanism
+    - instructions with LOCK prefix
+      - synchronize the cache-line with the main memory
+      - acquire exclusive access to the cache line and mark it locked
+      - perform read-modify-write on operands in the cache line
+      - mark the cache line modified and unlocks it
+    - while the cache line is locked, the cache coherence requests of other CPUs are ignored
+
+  - performance of directives
+    - ```critical``` uses locks and performs operation in 3 steps:
+      - lock (atomically sets a variable),
+      - arbitrary number of instructions,
+      - unlock
+    - ```atomic``` combines all together – instruction takes care of locking and modifying a variable atomically
+      - applicable only to scalar variable assignment with operators ++, --, +=, -=, *=, /=, &=, |=, <<=, >>=
+      - faster than critical
 
 - example:
   - computing $\pi$ following Lebnitz formula
@@ -158,19 +174,4 @@
   - [pil1.c](files/pil/pil1.c): loop dependence, race condition
   - [pil2.c](files/pil/pil2.c): correct result, poor performance
   
-- hardware implementation
-  - modern processors do not lock memory bus, but works on cache line
-  - works together with the MESI cache coherence mechanism
-  - instructions with LOCK prefix
-    - synchronize the cache-line with the main memory
-    - acquire exclusive access to the cache line and mark it locked
-    - perform read-modify-write on operands in the cache line
-    - mark the cache line modified and unlocks it
-  - while the cache line is locked, the cache coherence requests of other CPUs are ignored
 
-- performance of directives
-  - ```critical``` uses locks and performs operation in 3 steps:
-    - lock (atomically sets a variable),
-    - arbitrary number of instructions,
-    - unlock
-  - ```atomic``` combines all together – instruction takes care of locking and modifying a variable atomically
