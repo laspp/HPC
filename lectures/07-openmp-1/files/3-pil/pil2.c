@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "omp.h"
 
-#define N 1000000
+#define N 100000000
 
 int main(void) {
 	double pi = 0.0;
@@ -14,8 +14,7 @@ int main(void) {
 	#pragma omp parallel for
 	for (int i = 0; i < N; i++) {
 		int factor = 1 - 2 * (i % 2);
-		#pragma omp critical
-		// #pragma omp atomic
+		#pragma omp atomic
 		pi += 4.0 * factor / (2 * i + 1);
 	}
 	double endTime = omp_get_wtime();
