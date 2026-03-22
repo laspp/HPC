@@ -30,7 +30,7 @@
 - Week 04:
   - lectures:
     [Synchronization with OpenMP](lectures/08-syncronization/synchronization.md),
-    [Performance Issues](lectures/09-shared-mem-performance/openmp-2.md)
+    [Performance Issues](lectures/09-shared-mem-performance/shared-mem-performance.md)
   - labs:
     Consultations regarding Assignment 1
 

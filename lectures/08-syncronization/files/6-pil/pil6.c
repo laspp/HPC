@@ -13,14 +13,14 @@ int main(void) {
 	double startTime = omp_get_wtime();
 	#pragma omp parallel
 	{
-		double piPart = 0.0;
+		double sum = 0.0;
 		#pragma omp for
 		for (int i = 0; i < N; i++) {
 			int factor = 1 - 2 * (i % 2);
-			piPart += 4.0 * factor / (2 * i + 1);
+			sum += 4.0 * factor / (2 * i + 1);
 		}
 		#pragma omp atomic
-		pi += piPart;
+		pi += sum;
 	}
 	double endTime = omp_get_wtime();
 	printf("pi: %lf, time taken: %lf seconds\n", pi, endTime - startTime);

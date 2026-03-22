@@ -10,28 +10,28 @@
 
 int main(void) {
 	double pi = 0.0;
-	double *mysum = NULL;
+	double *myPiPart = NULL;
 
 	#pragma omp parallel master
-	mysum = (double *)malloc(omp_get_num_threads() * sizeof(double));
+	myPiPart = (double *)malloc(omp_get_num_threads() * sizeof(double));
 
 	double startTime = omp_get_wtime();
 	#pragma omp parallel
 	{
-		double piPart = 0.0;
+		double sum = 0.0;
 		#pragma omp for
 		for (int i = 0; i < N; i++) {
 			int factor = 1 - 2 * (i % 2);
-			piPart += 4.0 * factor / (2 * i + 1);
+			sum += 4.0 * factor / (2 * i + 1);
 		}
-		mysum[omp_get_thread_num()] = piPart;
+		myPiPart[omp_get_thread_num()] = sum;
 	}
 	for (int i = 0; i < omp_get_num_threads(); i++) {
-		pi += mysum[i];
+		pi += myPiPart[i];
 	}
 	double endTime = omp_get_wtime();
 
-	free(mysum);
+	free(myPiPart);
 	printf("pi: %lf, time taken: %lf seconds\n", pi, endTime - startTime);
 
 	return 0;
