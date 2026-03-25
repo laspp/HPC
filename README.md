@@ -37,4 +37,4 @@
 - Week 05:
   - lectures:
     [Graphics Processing Units](lectures/11-gpus/gpus.md),
-  - labs:
+  - labs: Assignment 1 report defense
