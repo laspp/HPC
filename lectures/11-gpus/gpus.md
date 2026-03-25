@@ -32,6 +32,7 @@
   - OpenCL (Khronos Group)
     - very general, supports GPUs, FPGA circuits, and DSP chips
     - portability comes at a cost – each program includes a lot of initialization and system checking code
+  - many others
 - programming model:
   - quite different from CPU programming
   - code must largely be rewritten
@@ -115,20 +116,20 @@
 
 ## Heterogeneous system
 
-- in addition to CPU cores, contains one or more accelerators
-- CPU = host, accelerator = device
+- a node, in addition to CPU cores, contains one or more accelerators
+- CPU and GPU are often named host and device, respectively
 - offloading model
 - device is usually connected via a high-speed bus
   - programs consist of two parts:
     - sequential code on the host:
       - device detection (1)
-      - compilation (2) and transfer of program kernels (3)
-      - data transfer to device (4)
+      - data transfer to device (2)
+      - compilation (3) and transfer of program kernels (4)
       - trigger kernel execution (5)
       - transfer of results back to host (7)
   - parallel code on the device:
-    - program kernel
-    - executed by every thread
+    - program kernel execution (6)
+    - executed by every thread 
 - asynchronous execution:
   - host continues execution after launching a kernel
   - kernel execution can overlap with data transfers
@@ -138,7 +139,7 @@
 ## Execution model
 
 - emphasis on data parallelism
-- the idea is to create a large number of threads to hide memory latency
+- the idea is to create a large number of threads to hide memory latency - utterly different from CPUs where caches and out-of-order execution are used for latency hiding
 - hierarchical thread organization:
   - follows hierarchical architecture of processors and memory - thread grid, block, warp
   - thread grid

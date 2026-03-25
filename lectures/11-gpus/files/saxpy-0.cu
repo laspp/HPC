@@ -10,8 +10,8 @@
 #include "helper_cuda.h"
 
 
-#define VECTOR_SIZE 1024
-// #define VECTOR_SIZE 2048
+// #define VECTOR_SIZE 1024
+ #define VECTOR_SIZE 2048
 
 __global__ void saxpy(float a, float *x, float *y) {
     int tid = threadIdx.x;

@@ -11,7 +11,7 @@
 #include "helper_cuda.h"
 
 
-#define VECTOR_SIZE 2048
+#define VECTOR_SIZE 2049
 #define BLOCK_SIZE 256
 
 
