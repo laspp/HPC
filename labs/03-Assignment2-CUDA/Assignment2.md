@@ -3,8 +3,6 @@
 **Authors:** Uroš Lotrič, Davor Sluga  
 **Date:** March 2026
 
----
-
 ## Introduction
 
 The [Lenia project](https://content.wolfram.com/sites/13/2019/10/28-3-1.pdf) started by experimenting with [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) variations. It is a generalization of Game of Life with continuous space, time, and states. As a consequence, it enables the generation of more complex autonomous creatures. The Game of Life and the Lenia are cellular automata. A cellular automaton is a grid of cells, each having a particular state at a moment. Cells are updated repeatedly according to a local rule taking into account each cell and its neighboring cells.
