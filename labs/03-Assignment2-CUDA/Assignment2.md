@@ -5,11 +5,11 @@
 
 ## Introduction
 
-The [Lenia project](https://content.wolfram.com/sites/13/2019/10/28-3-1.pdf) started by experimenting with [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) variations. It is a generalization of Game of Life with continuous space, time, and states. As a consequence, it enables the generation of more complex autonomous creatures. The Game of Life and the Lenia are cellular automata. A cellular automaton is a grid of cells, each having a particular state at a moment. Cells are updated repeatedly according to a local rule taking into account each cell and its neighboring cells.
+The [Lenia project](https://content.wolfram.com/sites/13/2019/10/28-3-1.pdf) started by experimenting with [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) variations. It is a generalisation of the Game of Life with continuous space, time, and states. As a consequence, it enables the generation of more complex autonomous creatures. The Game of Life and the Lenia are cellular automata. A cellular automaton is a grid of cells, each having a particular state at a moment. Cells are repeatedly updated according to a local rule, taking into account each cell and its neighbours.
 
-In the Game of Life, the cells are arranged in a rectangular grid, time runs in discrete steps, and each cell has eight neighbouring cells (radius 1), which can take only discrete values 0 (dead) or 1 (alive). The new state of a cell is calculated based on its current state and the number of alive neighbouring cells.
+In the Game of Life, the cells are arranged in a rectangular grid, time runs in discrete steps, and each cell has eight neighbouring cells (radius 1), which can take only discrete values 0 (dead) or 1 (alive). The new state of a cell is determined by its current state and the number of alive neighbouring cells.
 
-In Lenia, the space is continuous, but for computer simulation purposes, again arranged in a rectangular grid. However, by creating smaller cells, the simulation becomes more accurate. Similarly, time is continuous but discretized for simulation purposes. The discrete time step can take an arbitrary value, a smaller value reflecting in a more detailed simulation. Next, the neighbourhood in Lenia is much broader. In our simulation, we will limit the radius to 13. Lastly, the state of a cell is represented by a continuous value bounded to the interval [0, 1]. Instead of simply counting the alive neighbouring cells, the Lenia grid is convolved with a 2D ring kernel presented with a square matrix of size 26x26. The convolution result passes through a Gaussian-based growth function, which decides on cell development.
+In Lenia, the space is continuous, but for computer simulation purposes, it is again arranged in a rectangular grid. However, by creating smaller cells, the simulation becomes more accurate. Similarly, time is continuous but discretised for simulation purposes. The discrete time step can take any value; a smaller value results in a more detailed simulation. Next, the neighbourhood in Lenia is much broader. In our simulation, we will limit the radius to 13. Lastly, the state of a cell is represented by a continuous value bounded to the interval [0, 1]. Instead of simply counting alive neighbouring cells, the Lenia grid is convolved with a 2D ring kernel applied to a square matrix of size 26x26. The convolution result passes through a Gaussian-based growth function that determines cell development.
 
 
 ## Lenia simulation
@@ -44,22 +44,20 @@ def evolve_lenia(world, kernel, mu, sigma, dt):
     world = np.clip(world, 0, 1)
     return world
 ```
-The function `kernel_lenia` constructs a ring kernel, which is kept constant. The core function of the simulation is `evolve_lenia`, which we call in every iteration. It first convolves the current state `world` with kernel and then calculates the development of cells by passing the convolution result `C` to the function `growth_lenia`. The visualization of the growth function is shown below.
+The function `kernel_lenia` constructs a constant ring kernel. The core function of the simulation is `evolve_lenia`, which we call in every iteration. It first convolves the current state `world` with a kernel, then computes cell development by passing the convolution result `C` to the function `growth_lenia`. The visualisation of the growth function is shown below.
 
 ![The growth function.](img/growth.png)
 
-Below we can see the ring kernel and Orbium creature you can use in the simulation. If you you place the orbium creature at the start into the grid it will keep its shape while it moves around. For other exciting kernels and creatures, consult the [Lenia web page](https://chakazul.github.io/lenia.html).
+Below, we can see the ring kernel and Orbium creature you can use in the simulation. If you place the orbium creature at the start into the world grid, it will keep its shape while it moves around as seen in the provided animation. For other exciting kernels and creatures, consult the [Lenia web page](https://chakazul.github.io/lenia.html).
 
 ![The kernel and the orbium](img/kernel-creature.png)
-
-Although it is interesting to quest for new creatures and observe their development through time, this should not be your focus. The problem is interesting from a parallelization and code optimization perspective.
 
 ![Simulation.](img/lenia.gif)
 
 
 ## Parallel Lenia simulation
 
-The evolution of Lenia cellular automata over time can be easily parallelized. In each iteration, each cell's state can be independently and, thus, in parallel, computed based on the values of the neighbouring cells in the previous iteration. Of course, there exists a dependence between iterations, so all of the computations in the previous iteration need to finish before we proceed to the next iteration.
+Although it is interesting to quest for new creatures and observe their development through time, this should not be your focus. The problem is also interesting from a parallelisation and code optimisation perspective. The evolution of Lenia cellular automata over time can be easily parallelised. In each iteration, each cell's state can be computed independently, and thus in parallel, based on the values of the neighbouring cells from the previous iteration. Of course, there exists a dependence between iterations, so all of the computations in the previous iteration need to finish before we proceed to the next iteration.
 
 
 ## Assignment
@@ -81,9 +79,9 @@ Implement a parallel version of the Lenia simulation in C/C++ and CUDA that evol
 
 - Parallelise the algorithm using CUDA as efficiently as possible. Look into lecture [stencil code samples](../../lectures/12-patterns/files/stencil/) for inspiration. 
 - Avoid unnecessary memory transfers between the host and the device. When dividing the workload, find the optimal thread block size.
-- Measure the execution time of the CUDA algorithm on Arnes cluster for different world sizes. Use the next grid sizes: 256x256, 512x512, 1024x1024, 2048x2048 and 4096x4096. Benchmark the algorithm on 100 simulation steps. When measuring time, the data transfers to and from the GPU must be also included. 
+- Measure the execution time of the CUDA algorithm on Arnes cluster for different world sizes. Use the next grid sizes: 256x256, 512x512, 1024x1024, 2048x2048 and 4096x4096. Benchmark the algorithm on 100 simulation steps. When measuring time, the data transfers to and from the GPU must also be included. 
 - Compute the speed-up $S=t_s/t_p$ of your algorithm for each image size; $t_s$ is the execution time of the sequential algorithm on the CPU, and $t_p$ is the execution time of the parallel algorithm on the GPU. Run the algorithm multiple times (at least 5) and average the measurements. Note that the base code for the largest grid takes more than an hour to run. You can do only one run in such a case.
-- Visualise the resulting final state (don't put it in the report, but store it separately). You can even create an animation showing how the world evolves through time. Do not include the execution time taken to produce the animation the time measurements and speedups.
+- Visualise the resulting final state (don't put it in the report, but store it separately). You can even create an animation that shows how the world evolves over time. Do not include the time required to produce the animation in the time measurements or speedups.
 - Write a short report (1-2 pages) summarising your solution and presenting the measurements performed on the cluster. The main focus should be on presenting and explaining the time measurements and speed-ups.
 - Hand in your code and the report (one submission per pair) to ucilnica through the appropriate form by the specified deadline (**14. 4. 2026**) and defend your code and report during labs.
 
