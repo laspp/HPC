@@ -1,6 +1,6 @@
 // nvcc -o dotprod9 dotprod9.cu
 // srun --reservation=fri --partition=gpu --gpus=1 ./dotprod9 16777216 256
-// improvement: atomic add, externaly defined shared memory
+// improvement: atomic add, dynamically allocated shared memory
 
 #include <stdio.h>
 #include <stdlib.h>

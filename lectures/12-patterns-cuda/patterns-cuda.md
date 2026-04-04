@@ -2,7 +2,7 @@
 
 ## Stencil
 
-- zpecial case of map
+- special case of map
   - 1D or multiple dimensions
 - has regular data access pattern
   - each output depends on a neighborhood of inputs
@@ -67,7 +67,7 @@
 
   $T(x, y) = \frac{1}{4} \cdot (T(x-h, y) + T(x+h, y) + T(x, y-h) + T(x, y+h))$
 
-- surface size $N+2$ includes boundary values on the edges
+- surface size $N+2$ includes boundary values
 - result
 
   <img src="figures/heat.png" alt="Heat distribution" width="50%" />
@@ -143,13 +143,26 @@
 
 - solutions
   - [dotprod0.cu](files/2-reduce/dotprod0.cu): CPU reference code
-
-
-- one thread, sequential
-- problem size and number of threads
-- shared memory
-- summation on host
-- tree-like
-  - sum neighbours: stride is increasing with iterations
-  - warp-optimized solution: stride is decreasing with iterations
-- generalization for non-power-of-two block sizes
+  - [dotprod1.cu](files/2-reduce/dotprod1.cu):
+    - element-wise multiplication is performed on GPU, summation on CPU
+  - [dotprod2.cu](files/2-reduce/dotprod2.cu):
+    - summation of partial results on CPU (less data to transfer back)
+    - local memory to store products
+    - serial summation of products from local memory inside a block thread
+  - [dotprod3.cu](files/2-reduce/dotprod3.cu):
+    - tree-like summation of values inside a block, stride is increasing
+  - [dotprod4.cu](files/2-reduce/dotprod4.cu):
+    - tree-like summation of values inside a block, stride is decreasing
+    - better warp management, considerably improved performance
+  - [dotprod5.cu](files/2-reduce/dotprod5.cu):
+    - for threads inside the final warp we use light-weight barrier with ```__syncwarp()```
+  - [dotprod6.cu](files/2-reduce/dotprod6.cu):
+    - generalization of solution to support block sizes not power of $2$
+  - [dotprod7.cu](files/2-reduce/dotprod7.cu):
+    - trick to compute largest power of $2$ smaller or equal to the block size
+  - [dotprod8.cu](files/2-reduce/dotprod8.cu):
+    - atomic add, no summation on CPU
+  - [dotprod9.cu](files/2-reduce/dotprod9.cu):
+    - dynamic allocation of local memory
+  - [dotprodA.cu](files/2-reduce/dotprodA.cu):
+    - managed memory solution
