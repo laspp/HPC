@@ -2,38 +2,37 @@
 
 ## Stencil
 
-- Special case of map
+- zpecial case of map
   - 1D or multiple dimensions
-- Has regular data access pattern
-  - Each output depends on a neighborhood of inputs
-  - Inputs have fixed offsets relative to the output
-  - Can be implemented as
-    - Set of random reads for each output
-    - Shifts
-- Applications
-  - Image and signal processing (convolution)
-  - Physics, mechanical engineering, CFD (PDE solvers over regular grids)
-  - Cellular automata
-- Different neighborhoods
-  - Square compact, ..., sparse
-  - Cache optimizations
-  - Stencils reuse samples required for neighboring elements
-- Boundaries of grids given to a processor
-  - Exchange data with other processors
-  - Additional communication costs
+- has regular data access pattern
+  - each output depends on a neighborhood of inputs
+  - inputs have fixed offsets relative to the output
+  - can be implemented as
+    - set of random reads for each output
+    - shifts
+- applications
+  - image and signal processing (convolution)
+  - physics, mechanical engineering, CFD (PDE solvers over regular grids)
+  - cellular automata
+- different neighborhoods
+  - square compact, ..., sparse
+  - cache optimizations
+  - stencils reuse samples required for neighboring elements
+- boundaries of grids given to a processor
+  - exchange data with other processors
+  - additional communication costs
 
 ### Implementation with Shift Operation
 
-- Beneficial for 1D stencils
-- Allow vectorization of data reads
-- Does not reduce memory traffic
-
+- beneficial for 1D stencils
+- allow vectorization of data reads
+- does not reduce memory traffic
 
 ### Implementation with tiles
 
-- Multidimensional stencils
-- Strip-mining (optimized for cache)
-- Example
+- multidimensional stencils
+- strip-mining (optimized for cache)
+- example
   - Two-dimensional array organized in row-by-row fashion
   - Horizontal data in the same cache line, vertical far away
   - Horizontal split
@@ -47,164 +46,110 @@
 
 ### Communication
 
-- Commonly the output of stencil is used as the input for the next iteration
-  - Double buffering
-  - Pointers to buffers are interchanged between iterations
-- Need for synchronization
-- Boundary regions (halo) of the grid may need explicit communication with neighboring processors
-  - Halo can be exchanged each iteration
-  - Data exchange can take place on each k-th iteration when halo is increased, and some redundant computation takes place on each processor
-  - Latency hiding (update of internal grid cells when waiting for halo exchange)
+- commonly the output of stencil is used as the input for the next iteration
+  - double buffering
+  - pointers to buffers are interchanged between iterations
+- need for synchronization
+- boundary regions (halo) of the grid may need explicit communication with neighboring processors
+  - halo can be exchanged each iteration
+  - data exchange can take place on each $k$-th iteration when halo radius is increased, and some redundant computation takes place on each processor
+  - latency hiding (update of internal grid cells when waiting for halo exchange)
 
 ### Example: Heat distribution
 
-- Square surface, three edges touch boiling water, one edge is put in ice
+- square surface, three edges touch boiling water, one edge is put in ice
 - How is the heat distributed inside the surface?
 - Laplace equation
 
-  $$ \partial^2 T(x,y)\over \partial x^2 $$
-  $$ \frac{\partial f}{\partial x} $$
+  $$ \partial^2 T(x,y)\over \partial x^2 + \partial^2 T(x,y)\over \partial y^2 = 0 $$
+  
+- discretized Laplace equation is in proper form for iterative solving
+
+  $$ T(x, y) = \frac{1}{4}\left( T(x-h, y) + T(x+h, y) + T(x, y-h) + T(x, y+h) \right) $$
+
+- surface size $N+2$ includes boundary values on the edges
+- result
+
+  <img src="figures/heat.png" alt="Heat distribution" width="50%" />
+
+- solutions
+  - [heat0.cu](files/1-stencil/heat0.cu): CPU reference code
+  - [heat1.cu](files/1-stencil/heat1.cu): GPU code, reading directly from the global memory
+  - [heat2.cu](files/1-stencil/heat2.cu): GPU code, using local memory, static allocation
+    - first threads copy data to the local memory
+      - local memory is organized as a 2D tile which includes halo needed by threads on edges to correctly compute the next iteration
+      - each thread transfers the value for which it is responsible
+      - threads on edges also transfer values from halo (cells)
+    - threads can start with computation only when all data is in local memory
+      - ```__syncthreads()``` represents a barrier in CUDA C
+  - [heat3.cu](files/1-stencil/heat3.cu): GPU code, using local memory, dynamic allocation
+  - [heat4.cu](files/1-stencil/heat4.cu): GPU code, using local memory, dynamic allocations
+    - threads in a warp ar not accessing neighboring memory locations
+    - degraded performance
 
 ## Reduce
 
-## Scan
+- a collective operation
+- reduce pattern allows data to be combined
+  - combiner function $f(a, b) = a \oplus b$
+  - pairwise operation
+  - associativity must hold
+    - $(a \oplus b) \oplus c = $a \oplus (b \oplus c)$
+    - operands can be combined in any order
+    - floating point addition and multiplication are only partially associative due to the limited precision
+  - commutativity
+    - $a \oplus b = b \oplus a$
+    - not required, but enables additional reorderings
+  - identity
+    - initial value of reduction
 
+### Tiling
 
-- a CUDA kernel represents code that runs on a GPU
-- the kernel is written as a sequential program
-- the programming interface handles the compilation and transfer of the kernel to the device
-- the kernel executes individually on its own data for each thread
+- use serial algorithm where possible
+- do tree-like reduction to reduce communication costs
+- process
+  - break the work to tiles
+  - operate on tiles separately
+  - combine partial results from tiles
+- serial and tree algorithms
+  - the number of combiner function applications is the same
+  - serial algorithm requires less storage for intermediate results
 
-## Hierarchical Organization of Threads
+### Theoretical Considerations
 
-- a grid of threads
-  - all threads in the grid execute the same kernel
-  - threads in the grid share global memory on the GPU
-  - the grid consists of thread blocks
+- sequential reduction of $N$ operands
+  - $N−1$ reductions
+  - each invocation of reduce function needs $\chi$ to complete
+  - total execution time is $t_s = \chi (N-1)$
+- parallel tree-like reduction, $n=2^k, k\in \mathbb{N}$
+  - establishing communication takes $\lambda$ units of time 
+  - $N/2$ reductions in the first stage can go in parallel, $N/4$ in the second stage can go in parallel ... $1$ reduction in the last stage
+  - altogether we have $\log_2 N$ stages with total $N-1$ reductions
+  - total execution time equals $t_p = (\chi+\lambda)\log_2 N$
 
-- a thread block
-  - all threads in a block are executed on the same compute unit
-  - they can exchange and synchronize through local (shared) memory
+### Fusing Map and Reduce
 
-- a thread warp
-  - group of consecutive threads that follows SIMT (single instruction multiple threads principle)
-  - 32 threads at Nvidia GPUs and 64 at AMD GPUs
-  
-- a thread
-  - executes the kernel sequentially on its own data
-  - uses its private memory
-  - shares the local memory with other threads in the block
-  - can access global memory and constant memory
+- when map is feeding outputs directly into a reduction, the combination can be implemented more efficiently
+- no need for synchronization between map and reduce stages
+- no need to write intermediate results to memory or file
+- map and reduce must be tiled in a same way
 
-## Thread Indexing
+### Example: Dot Product
 
-- 1D, 2D, or 3D indexing
-- threads are grouped in thread warps first by dimension x, then y, and finally z
-- the number of dimensions is chosen based on the nature of the problem
-- CUDA C supports a set of variables reflecting thread organization:
-  - ```threadIdx.x```, ```threadIdx.y```, ```threadIdx.z```
-  - ```blockIdx.x```, ```blockIdx.y```, ```blockIdx.z```
-  - ```blockDim.x```, ```blockDim.y```, ```blockDim.z```
-  - ```gridDim.x```, ```gridDim.y```, ```gridDim.z```
-- thread indexing
-  
-  <img src="figures/thread-indexing.png" alt="Thread inexing" width="70%" />
+- vectors $\mathbf{a}$ and $\mathbf{b}$ of length $N$
+- dot product
 
-## GPU Kernel
+  $$\mathbf{a}\cdot \mathbf{b} = \sum_{i=0}^{N-1} a_i \cdot b_i $$
 
-- a GPU kernel is code that is started from the host but runs on the device
-- the kernel is written as a function, prefixed by the keyword ```__global__```
-- the kernel does not return a value
-- a kernel example:
-
-  ```C
-  __global__ void greetings(void) {
-    printf("Hello from thread %d.%d!\n", blockIdx.x, threadIdx.x);
-  }
-  ```
-
-- the kernel is launched on the host, where triple angle brackets are inserted between the name and arguments
-- thread organization in the grid - the number of blocks and the number of threads in each dimension - is specified within the triple angle brackets
-- for describing multidimensional thread organization, the CUDA C language provides the ```dim3``` structure:
-
-  ```C
-  dim3 gridSize(numBlocks, 1, 1);
-  dim3 blockSize(numThreads, 1, 1);
-  greetings<<<gridSize, blockSize>>>();
-  ```
-
-- a kernel can also call other device functions marked with the ```__device__``` keyword
-- to emphasize that a function runs only on the host, it is marked with ```__host__```
-
-## The first GPU program
-
-- [hello-gpu.cu](files/hello-gpu.cu)
-- load the module: ```module load CUDA```
-- compile the code with the CUDA C compiler: ```nvcc -o hello-gpu hello-gpu.cu```
-- run the program: ```srun --partition=gpu --gpus=1 ./hello-gpu 2 4```
-
-
-## Memory Allocation and Data Transfer
-
-- the host has access only to the global memory of the device
-
-### Explicit Data Transfer
-
-- on the host, memory is allocated using the ```malloc``` function
-- global memory on the device is allocated using the function call:
-
-  ```C
-  cudaError_t cudaMalloc(void** dPtr, size_t count)
-  ````
-
-- this function allocates ```count``` bytes and returns the address in the device's global memory to the pointer ```dPtr```
-- to transfer data between the device’s global memory and the host memory, we use the function:
-
-  ```C
-  cudaError_t cudaMemcpy(void* dst, const void* src, size_t count, cudaMemcpyKind kind)
-  ```
-
-- this function copies ```count``` bytes from the address ```src``` to the address ```dst``` in the direction specified by kind, which is
-  - for transferring data from host to device ```cudaMemcpyHostToDevice```, and
-  - for transferring data from device to host ```cudaMemcpyDeviceToHost```
-- the function is blocking - the program execution continues only after the data transfer is complete
-
-- device memory is freed with the function call:
-
-  ```C
-  cudaError_t cudaFree(void *devPtr)
-  ```
-
-- memory on the host is freed using function ```free```
-
-### Unified Memory
-
-- newer versions of CUDA support unified memory
-- CUDA performs data transfers as needed
-- a programmer has no control, and it is often less efficient than explicit transfers
-- the unified memory is allocated using the function call:
-
-  ```C
-  cudaError_t cudaMallocManaged(void **hdPtr, size_t count);
-  ```
-
-- the unified memory is freed using the function call:
-
-  ```C
-  cudaError_t cudaFree(void *hdPtr)
-  ```
-
-- in our examples we will not work with the unified memory
-
-## Example: SAXPY
-
-- Single precision A times X Plus Y
-- vectors **x** and **y**
-- element-wise operation ```y[i] = a * x[i] + y[i]```
-- the map pattern
 - solutions
-  - [saxpy0.cu](files/saxpy0.cu): support for one thread block
-  - [saxpy1.cu](files/saxpy1.cu): added support for multiple thread blocks, the number of blocks is calculated based on the problem size
-  - [saxpy2.cu](files/saxpy2.cu): improved code, threads with global index out of the vector (array) bounds don't do any work
-  - [saxpy3.cu](files/saxpy3.cu): in case when total number of threads is smaller than the problem size, some threads do additional work
-  - [saxpy4.cu](files/saxpy4.cu): unified memory
+  - [dotprod0.cu](files/2-reduce/dotprod0.cu): CPU reference code
+
+
+- one thread, sequential
+- problem size and number of threads
+- shared memory
+- summation on host
+- tree-like
+  - sum neighbours: stride is increasing with iterations
+  - warp-optimized solution: stride is decreasing with iterations
+- generalization for non-power-of-two block sizes
