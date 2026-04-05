@@ -194,7 +194,7 @@
 - also prefix scan
 - produces all partial reductions of an input sequence
 
-  <img src="figures/scan-ser-inc.png" alt="Serial inclusive scan" width="60%" />
+  <img src="figures/scan-ser-inc.png" alt="Serial inclusive scan" width="45%" />
 
 - exclusive and inclusive scan
 - operation
@@ -229,14 +229,14 @@
 
 ### Two-phase parallel scan
 
-- Blelloch
+- Blelloch, 1990
 - tree-like approach
 - requires only one buffer of length $N$
 - more synchronizations
-- first phase
+- first phase: up-sweep
   - stride increases: $0, \ldots, \lfloor\log_2 N\rfloor - 1$
   - see displacements of elements used in computation in figure below
-- second phase
+- second phase: down-sweep
   - stride decreases: $\lfloor\log_2 N\rfloor - 1, \ldots, 0$
   - see displacements of elements used in computation in figure below
 
@@ -262,7 +262,7 @@
   - double length array
   - as there is no pointers in CUDA C, we use two indices ```dIn``` and ```dOut``` to determine input and output buffer
  
-  <img src="figures/scan-double-buffering-gpu.png" alt="Double buffering in local memory with CUDA C" width="40%" />
+  <img src="figures/scan-double-buffering-gpu.png" alt="Double buffering in local memory with CUDA C" width="30%" />
 
 - solutions for inclusive scan
   - [scan0.cu](files/3-scan/scan0.cu): serial scan inside blocks (tiles) using local memory, serial computation of offsets
