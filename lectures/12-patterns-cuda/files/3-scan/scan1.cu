@@ -12,9 +12,9 @@
 
 // kernels
 
-__global__ void scan(float *in, float *out, float *blocksum, int size)
-{		
-    __shared__ float loc[2*THREADS_PER_BLOCK];
+__global__ void scan(float *in, float *out, float *blocksum, int size) {		
+    
+	__shared__ float loc[2*THREADS_PER_BLOCK];
 
 	int lid = threadIdx.x;
 	int gid = blockDim.x * blockIdx.x + threadIdx.x;
@@ -30,8 +30,7 @@ __global__ void scan(float *in, float *out, float *blocksum, int size)
 
 	__syncthreads();
 
-	for (int offset = 1; offset < size; offset <<= 1)
-	{
+	for (int offset = 1; offset < size; offset <<= 1) {
 		loc[dout + lid] = loc[din + lid];
 		if(lid >= offset)
 			loc[dout + lid] += loc[din + lid - offset];
@@ -52,8 +51,7 @@ __global__ void scan(float *in, float *out, float *blocksum, int size)
 		blocksum[blockIdx.x] = loc[dout + blockDim.x - 1];
 }														
 
-__global__ void add(float *out, float *blocksum, int size)
-{		
+__global__ void add(float *out, float *blocksum, int size) {		
 	__shared__ float loc[THREADS_PER_BLOCK];
 
 	int lid = threadIdx.x;
@@ -63,8 +61,7 @@ __global__ void add(float *out, float *blocksum, int size)
 	// prepare data
 	loc[lid] = 0.0f;
 	int idx = lid;
-	while (idx < blockIdx.x)
-	{
+	while (idx < blockIdx.x) {
 		loc[lid] += blocksum[idx];
 		idx += blockDim.x;
 	}
@@ -73,14 +70,12 @@ __global__ void add(float *out, float *blocksum, int size)
 
 	// reduction
 	int floorPow2 = exp2((float)(int)log2((float)blockDim.x));
-    if (blockDim.x != floorPow2)										
-	{
+    if (blockDim.x != floorPow2) {
 		if (lid >= floorPow2)
             loc[lid - floorPow2] += loc[lid];
 		__syncthreads();
     }
-	for(int i = (floorPow2 >> 1); i>0; i >>= 1) 
-	{
+	for(int i = (floorPow2 >> 1); i>0; i >>= 1) {
 		if(lid < i) 
 			loc[lid] += loc[lid + i];
 		__syncthreads();
@@ -92,8 +87,7 @@ __global__ void add(float *out, float *blocksum, int size)
 }														
 
 
-int main(int argc, char *argv[]) 
-{
+int main(int argc, char *argv[]) {
     float *h_in, *h_out;
     float *d_in, *d_out, *d_blocksum;
 
@@ -105,8 +99,7 @@ int main(int argc, char *argv[])
 
     // Initialize vectors
 	srand((int)time(NULL));
-	for(int i = 0; i < vectorSize; i++) 
-	{
+	for(int i = 0; i < vectorSize; i++) {
         h_in[i] = rand()/(float)RAND_MAX;
         h_out[i] = rand()/(float)RAND_MAX;
     }
@@ -139,8 +132,7 @@ int main(int argc, char *argv[])
 
     // results
     float sum = 0.0;
-    for (int i = 0; i < vectorSize; i++)
-    {
+    for (int i = 0; i < vectorSize; i++) {
         sum += h_in[i];
         printf("%d: %f =? %f\n", i, sum, h_out[i]);
     }
