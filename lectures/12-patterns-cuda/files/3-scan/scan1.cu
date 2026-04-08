@@ -32,7 +32,7 @@ __global__ void scan(float *in, float *out, float *blockSum, int size) {
 
 	__syncthreads();
 
-	for (int step = 1; step < size; step <<= 1) {
+	for (int step = 1; step < blockDim.x; step <<= 1) {
 		tileOut[lid] = tileIn[lid];
 		if(lid >= step)
 			tileOut[lid] += tileIn[lid - step];
