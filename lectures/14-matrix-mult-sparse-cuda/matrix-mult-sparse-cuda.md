@@ -80,7 +80,7 @@
     - number of elements in a row  = row_ptr[r+1] – row_ptr[r]
   - ```row_ptr[r]``` of a non-existing row points to a data element where it would start
 
-  <img src="figures/CSR.png" alt="Sparse matrix representation: CSR" width="60%" />
+  <img src="figures/CSR.png" alt="Sparse matrix representation: CSR" width="50%" />
 
   ```C
   data[7]   = (1, 2, 5, 4, 3, 6, 7)
@@ -143,8 +143,8 @@
   - we need to keep number of row elements ```numElementsInRow```
 
     ```C
-    data[12] = (\underline{1}, \underline{5}, \underline{0}, \underline{6}, 2, 4, 0, 7, 0, 3, 0, 0)
-    col[7]   = (\underline{0}, \underline{1}, \underline{*}, \underline{1}, 2, 2, *, 2, *, 3, *, *)
+    data[12] = (1, 5, 0, 6, 2, 4, 0, 7, 0, 3, 0, 0)
+    col[7]   = (0, 1, *, 1, 2, 2, *, 2, *, 3, *, *)
     numRows          = 4
     numElementsInRow = 3
     ```
@@ -194,4 +194,4 @@
 - no need for CPU computation
 - better suited for sparse matrices with a wide distribution of row lengths
 
-<img src="figures/JDS.png" alt="Sparse matrix representation: JDS" width="60%" />
+<img src="figures/JDS.png" alt="Sparse matrix representation: JDS" width="50%" />
