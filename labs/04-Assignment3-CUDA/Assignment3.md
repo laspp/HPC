@@ -145,7 +145,7 @@ Implement a parallel Lennard-Jones simulation in C/C++ using CUDA based on the [
 **Bonus tasks (for grades 9-10):**
 
 - Parallelise (with OpenMP) the provided sequential code. Use your improved code as the baseline (with the optimal number of cores) for the measurements when computing speed-ups against the GPU.
-- Improve the reference code: note that due to Newtons 3rd law, for every action (force) in nature, there is an equal and opposite reaction. When one object exerts a force on a second object, the second object simultaneously exerts a force equal in magnitude and opposite in direction on the first, thus you only need to compute half of the interactions: $(N*(N-1))/2$.
+- Improve the reference code: note that due to Newton's 3rd law, for every action (force) in nature, there is an equal and opposite reaction. When one object exerts a force on a second object, the second object simultaneously exerts a force equal in magnitude and opposite in direction on the first, thus you only need to compute half of the interactions: $(N*(N-1))/2$.
 - To further reduce the number of interactions computed, think about keeping a record of particle neighbourhoods. Remember, particles which are separated by more than $r_\text{cut}$ don't affect each other.
 - Think about splitting the work between GPU threads, try to find a solution that utilises the GPU best. One thread per particle may not be the best option.
 - Experiment with and optimise how the particles are stored in memory, utilise shared memory where you see fit.
@@ -153,16 +153,16 @@ Implement a parallel Lennard-Jones simulation in C/C++ using CUDA based on the [
 
 ## HPC Challenge
 
-Produce a higly optimized implementation of the Lennard-Jones simulation code for the 3D case, which generates results aligned with the reference code.
-Prepare a solution in C/C++ that supports graphics accelerators using CUDA. You are encouraged to combine CUDA with shared memory systems using OpenMP library in a way to optimize the execution times.
-Template code and run scripts are provided on the [repository](src/lennard-jones-challange). Your task is to implement the `run_simulation` function in the file `lennard-jones.cu`. The organizers will only consider the solutions built and executed using the script `run-lj.sh`. Each solution will be tested in an isolated environment consisting of one 12-core node, with two Nvidia V100 GPUS. Submit the solutions through the [course web page](https://ucilnica.fri.uni-lj.si/mod/assign/view.php?id=55667).
+Produce a highly optimised implementation of the Lennard-Jones simulation code for the 3D case, which generates results aligned with the reference code.
+Prepare a C/C++ solution that supports graphics accelerators using CUDA. You are encouraged to combine CUDA with shared-memory systems using the OpenMP library to optimise execution times.
+Template code and run scripts are provided on the [repository](src/lennard-jones-challange). Your task is to implement the `run_simulation` function in the file `lennard-jones.cu`. The organisers will only consider the solutions built and executed using the script `run-lj.sh`. Each solution will be tested in an isolated environment consisting of one 12-core node, with two Nvidia V100 GPUS. Submit the solutions through the [course web page](https://ucilnica.fri.uni-lj.si/mod/assign/view.php?id=55667).
 
-When submitting your solution, **DO NOT SUBMIT** the file `src/main.c`, as it will be ignored. During benchmarking, we will provide the `main.c`, which will call the function `run_simulation` as it is defined in the header file `lennard-jones.h`. Use the provided `main.c` as a reference on how the benchmarks will be performed.
-- We will benchmark on multiple particle system configurations (1000+ particles, 1000+ simulation steps). Energy logging wil be disabled.
+When submitting your solution, **DO NOT SUBMIT** the file `src/main.c`, as it will be ignored. During benchmarking, we will provide `main.c`, which will call the function `run_simulation` as defined in the header file `lennard-jones.h`. Use the provided `main.c` as a reference on how the benchmarks will be performed.
+- We will benchmark on multiple particle system configurations (1000+ particles, 1000+ simulation steps). Energy logging will be disabled.
 - You can modify the `Makefile` and add additional files as you see fit, as long as the project compiles.
 - The sbatch script `run-lj.sh` includes the full allocations of resources, as it will be used during benchmarking your solution.
 - You can modify the `run-lj.sh` to change the allocation parameters if needed and submit it as part of your solution. You are limited to one V100 node.
-- The function `run_simulation` should return the starting and the final state of the system as defined in the struct `SimulationResult`. We will use it to check your solution for correctness. We will treat the solution as correct if the returned values (start energies and final energies) are close enough to the reference solution for a given set of parameters. 
+- The function `run_simulation` should return the starting and the final state of the system as defined in the struct `SimulationResult`. We will use it to verify your solution's correctness. We will treat the solution as correct if the returned values (start energies and final energies) are close enough to the reference solution for a given set of parameters. 
 
 
 ### Rules of the game
@@ -172,7 +172,7 @@ When submitting your solution, **DO NOT SUBMIT** the file `src/main.c`, as it wi
 - The organisers will evaluate the submitted solutions for correctness and performance in terms of running time. Tests will be performed on the Arnes cluster in an isolated environment.
 - The solutions will be ranked according to the achieved performance.
 - Rewards:
-  - Winner gets a bouns of 10/10 perfectly answered questions on the written exam.
+  - Winner gets a bonus of 10/10 perfectly answered questions on the written exam.
   - Second place gets a bonus of TBD/10 perfectly answered questions on the written exam.
   - Third place gets a bonus of TBD/10 perfectly answered questions on the written exam.
   - The organisers reserve the right to reward other solutions with TBD/10 perfectly answered questions on the written exam at their discretion.
