@@ -3,8 +3,6 @@
 **Authors:** Uroš Lotrič, Davor Sluga  
 **Date:** April 2026
 
----
-
 ## Introduction
 
 Molecular dynamics simulation is a widely used computational technique for studying the physical behaviour of many-particle systems. By numerically integrating the equations of motion for each particle under the influence of forces, molecular dynamics allows us to observe phenomena such as self-organisation that emerge from simple pairwise interactions.
@@ -83,7 +81,7 @@ $$
 The simulation domain is a square box with periodic boundaries -- particles that leave the box re-enter from the opposite side. Since the simulation domain is finite but the system mimics its infinity, each particle has infinitely many periodic images. Thus, when computing the displacement vector $\mathbf{r}_{ij}$, we always select the image of particle $j$ that is closest to particle $i$. In practice, this is achieved by wrapping each component of the displacement vector into the interval $(-L/2, L/2]$,
 
 $$
-\mathbf{r}_{ij} = (\mathbf{r}_i - \mathbf{r}_j) - L \cdot \operatorname{round}\!\left(\frac{\mathbf{r}_i - \mathbf{r}_j}{L}\right) \quad .
+\mathbf{r}_{ij} = (\mathbf{r}_i - \mathbf{r}_j) - L \cdot \text{round}\!\left(\frac{\mathbf{r}_i - \mathbf{r}_j}{L}\right) \quad .
 $$
 
 ### Time integration
@@ -106,7 +104,7 @@ $$
 \mathbf{v}_i(t + \Delta t) = \mathbf{v}_i\left(t + \tfrac{\Delta t}{2}\right) + \tfrac{1}{2}\,\mathbf{a}_i(t + \Delta t)\Delta t \quad .
 $$
 
-Besides, kinetic energy and potential energy od the system,
+Besides, the kinetic energy and potential energy of the system,
 
 $$
 E_k=\sum_i \frac{1}{2}m|\mathbf{v}_i|^2 \quad \mathrm{and} \quad E_p = \sum_i\sum_{j\neq i} V_\mathrm{shifted}(r_{ij}) \quad,
