@@ -7,7 +7,7 @@
 
 Molecular dynamics simulation is a widely used computational technique for studying the physical behaviour of many-particle systems. By numerically integrating the equations of motion for each particle under the influence of forces, molecular dynamics allows us to observe phenomena such as self-organisation that emerge from simple pairwise interactions.
 
-In this assignment we consider a 2D $N$-body system of particles interacting via the Lennard-Jones potential, a classical model for noble gases and other simple fluids. The Lennard Jones potential captures both the short-range repulsion (due to overlapping electron clouds) and the longer-range attraction (van der Waals forces) between a pair of particles at distance $r$
+In this assignment, we consider a 2D $N$-body system of particles interacting via the Lennard-Jones potential, a classical model for noble gases and other simple fluids. The Lennard-Jones potential captures both the short-range repulsion (due to overlapping electron clouds) and the longer-range attraction (van der Waals forces) between a pair of particles at a distance $r$
 
 $$
 V(r) = 4\varepsilon \left[ \left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6} \right] \quad,
@@ -15,7 +15,7 @@ $$
 
 where $\varepsilon$ is the depth of the potential well and $\sigma$ is the finite distance, related to the atom size, at which the potential is zero. We use reduced units throughout the simulation, $m = \varepsilon = \sigma = 1$, which simplifies the equations and improves numerical conditioning.
 
-Force equals the gradient of the potential between a pair of particles, $\mathbf{F} = -\nabla V(r)$. Suppose particles $i$ and $j$ are sitting at positions $\mathbf{r}_i$ and $\mathbf{r}_j$, thus being displaced for vector $\mathbf{r}_{ij} = \mathbf{r}_i - \mathbf{r}_j$. Taking the displacement vector magnitude $r_{ij} = |\mathbf{r}_{ij}|$ and its projections to the Cartesian coordinate system $x_{ij}$ and $y_{ij}$, the force of particle $j$ on particle $i$ equals
+Force equals the gradient of the potential between a pair of particles, $\mathbf{F} = -\nabla V(r)$. Suppose particles $i$ and $j$ are sitting at positions $r_i$ and $r_j$, thus being displaced for vector $r_{ij} = r_i - r_j$. Taking the displacement vector magnitude $r_{ij} = |r_{ij}|$ and its projections to the Cartesian coordinate system $x_{ij}$ and $y_{ij}$, the force of particle $j$ on particle $i$ equals
 
 $$
 \mathbf{F}_{ij} = \left(F_{xij}, F_{yij}\right) = F(r_{ij})\left( \frac{x_{ij}}{r_{ij}}, \frac{y_{ij}}{r_{ij}} \right)
@@ -128,9 +128,9 @@ Implement a parallel Lennard-Jones simulation in C/C++ using CUDA based on the [
 - `Makefile` -> Project build rules.
 - `run-lj.sh` -> Sbatch script to acquire resources on the Arnes cluster, build and run the simulator.
 - `src/`
-    - `main.c` -> Main project file.
-    - `lennard-jones.cu` -> Lennard-Jones simulation code.
-    - `gifenc.c` -> Code for generating gif animations; taken from [here](https://github.com/lecram/gifenc).
+    - `main.c` -> Main project file.
+    - `lennard-jones.cu` -> Lennard-Jones simulation code.
+    - `gifenc.c` -> Code for generating gif animations; taken from [here](https://github.com/lecram/gifenc).
 
 
 **Basic tasks (for grades 6-8):**
