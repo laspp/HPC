@@ -145,7 +145,7 @@ Implement a parallel Lennard-Jones simulation in C/C++ using CUDA based on the [
 **Bonus tasks (for grades 9-10):**
 
 - Parallelise (with OpenMP) the provided sequential code. Use your improved code as the baseline (with the optimal number of cores) for the measurements when computing speed-ups against the GPU.
-- Improve the reference code: note that due to Newton's 3rd law, for every action (force) in nature, there is an equal and opposite reaction. When one object exerts a force on a second object, the second object simultaneously exerts a force equal in magnitude and opposite in direction on the first, thus you only need to compute half of the interactions: $(N(N-1))/2$.
+- Improve the reference code: note that due to Newton's 3rd law, for every action (force) in nature, there is an equal and opposite reaction. When one object exerts a force on a second object, the second object simultaneously exerts a force equal in magnitude and opposite in direction on the first, thus you only need to compute half of the interactions: $N(N-1)/2$.
 - To further reduce the number of interactions computed, think about keeping a record of particle neighbourhoods. Remember, particles which are separated by more than $r_\text{cut}$ don't affect each other.
 - Think about splitting the work between GPU threads, try to find a solution that utilises the GPU best. One thread per particle may not be the best option.
 - Experiment with and optimise how the particles are stored in memory, utilise shared memory where you see fit.
