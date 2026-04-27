@@ -21,7 +21,7 @@
   - message passing between nodes
   - programming of modern systems reflects architectural design
 
-  <img src="figures/heterogeneous-system.png" alt="Modern computing system" width="75%">
+  <img src="figures/heterogeneous-system.png" alt="Modern computing system" width="85%">
 
 - network or interconnect is what distinguishes distributed systems
   - distributed memory parallel computers are just regular computers, nodes programmed like any other
@@ -44,7 +44,7 @@
   - torus links mesh ends together
   - hypercube
 
-  <img src="figures/interconnects-direct.png" alt="Direct interconnect topologies" width="90%">
+  <img src="figures/interconnects-direct.png" alt="Direct interconnect topologies" width="95%">
 
 - communication is efficient among neighboring nodes
 - constant cost to scale to more nodes
@@ -77,7 +77,7 @@
 
     $t(n) = \lambda + \frac{1}{\beta} n$
 
-    <img src="figures/time-to-transfer-message.png" alt="Time to transfer a message" width="35%">
+    <img src="figures/time-to-transfer-message.png" alt="Time to transfer a message" width="30%">
 
 - improvements
   - account for the number of hops
