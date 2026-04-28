@@ -32,12 +32,12 @@
 - ```MPI_Bcast```
   - one to all (broadcast)
 
-    <img src="figures/bcast.png" alt="MPI collectives: broadcast" width="65%">
+    <img src="figures/bcast.png" alt="MPI collectives: broadcast" width="50%">
 
 - ```MPI_Scatter```and ```MPI_Gather```
   - scatters or gathers data across processes in the same communicator
 
-    <img src="figures/scatter-gather.png" alt="MPI collectives: scatter and gather" width="65%">
+    <img src="figures/scatter-gather.png" alt="MPI collectives: scatter and gather" width="50%">
 
   - expect all data chunks to be of the same size
   - root process takes care of one data chunk
@@ -54,13 +54,13 @@
   - combines gather and broadcast
   - can be efficiently implemented by only one pass of the tree
 
-    <img src="figures/allgather.png" alt="MPI collectives: gather on all" width="65%">
+    <img src="figures/allgather.png" alt="MPI collectives: gather on all" width="50%">
 
 - ```MPI_Alltoall```
   - transpose of data
   - tricky to implement efficiently
   
-    <img src="figures/alltoall.png" alt="MPI collectives: all to all" width="65%">
+    <img src="figures/alltoall.png" alt="MPI collectives: all to all" width="50%">
 
 - example: The Conway's Game of Life
   - the board is split to horizontal stripes
@@ -81,17 +81,17 @@
     - bit-wise operations: ```MPI_BAND```, ```MPI_BOR```, ```MPI_BXOR```
     - extreme with location: ```MPI_MAXLOC```, ```MPI_MINLOC```
 
-    <img src="figures/reduce.png" alt="MPI collectives: reduce" width="65%">
+    <img src="figures/reduce.png" alt="MPI collectives: reduce" width="50%">
 
 
 - ```MPI_Scan``` and ```MPI_Exscan```
 
-    <img src="figures/scan.png" alt="MPI collectives: scans" width="65%">
+    <img src="figures/scan.png" alt="MPI collectives: scans" width="50%">
 
 - ```MPI_Allreduce```
   - combination of reduce and broadcast
 
-    <img src="figures/allreduce.png" alt="MPI collectives: all reduce" width="65%">
+    <img src="figures/allreduce.png" alt="MPI collectives: all reduce" width="50%">
 
   - can be implemented with one pass of a tree
 
