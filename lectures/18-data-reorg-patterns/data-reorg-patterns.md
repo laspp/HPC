@@ -88,21 +88,21 @@
 - pack can be fused with map
 - useful when small number of elements is discarded
 
-  <img src="figures/pack-unpack.png" alt="Pack and unpack" width="75%">
+  <img src="figures/pack-unpack.png" alt="Pack and unpack" width="65%">
 
 ### Split
 
 - generalization
 - separate elements to two or more sets
 
-  <img src="figures/split.png" alt="Split" width="40%">
+  <img src="figures/split.png" alt="Split" width="30%">
 
 ### Expand
 
 - in combination with map
 - when map can produce arbitrary number of elements
 
-  <img src="figures/expand.png" alt="Expand" width="30%">
+  <img src="figures/expand.png" alt="Expand" width="35%">
 
 ### ```MPI_Pack``` and ```MPI_Unpack```
 
@@ -111,7 +111,7 @@
 - ```MPI_Pack_size``` gives size of data in bytes; used to dynamically allocate size of pack structure
 - copies data to new location (better to use data types)
 
-  <img src="figures/pack-unpack.png" alt="Expand" width="45%">
+  <img src="figures/pack-unpack.png" alt="Expand" width="60%">
 
 
 ## Geometric Decomposition
