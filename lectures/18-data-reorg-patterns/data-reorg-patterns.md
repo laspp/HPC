@@ -13,6 +13,9 @@
 - output data has
   - the same number of elements as the number of indices in input collections
   - the same dimensionality as location index collection
+
+  <img src="figures/gather-general.png" alt="Gather" width="40%">
+
 - ```MPI_Gather```
   - less general
   - a lot can be gained with derived MPI data types
@@ -20,7 +23,10 @@
 ### Shift / Rotate
 
 - special gathers
-- have regular data access pattern
+- have regular data access patterns
+
+  <img src="figures/shift-rotate.png" alt="Shift and rotate" width="40%">
+
 - can be efficiently implemented using vector instructions
 - in multi-dimensions shift/rotate offsets may differ
 - leads to coalesced data access
@@ -34,10 +40,15 @@
 - convert from structure of arrays to array of structures
 - unzip reverses zip operation
 
+  <img src="figures/zip-unzip.png" alt="Zip and unzip" width="40%">
+
 ## Scatter
 
 - a collection of input data is written to specified write locations
 - multiple writes to the same location are possible
+
+  <img src="figures/scatter-general.png" alt="Scatter" width="40%">
+
 - resolutions
   - permutation scatter
     - collisions are illegal, array of indices should not have duplicates
@@ -77,15 +88,21 @@
 - pack can be fused with map
 - useful when small number of elements is discarded
 
+  <img src="figures/pack-unpack.png" alt="Pack and unpack" width="40%">
+
 ### Split
 
 - generalization
 - separate elements to two or more sets
 
+  <img src="figures/split.png" alt="Split" width="40%">
+
 ### Expand
 
 - in combination with map
 - when map can produce arbitrary number of elements
+
+  <img src="figures/expand.png" alt="Expand" width="40%">
 
 ### ```MPI_Pack``` and ```MPI_Unpack```
 
@@ -93,6 +110,9 @@
 - useful for combining data of different data types to reduce number of sends
 - ```MPI_Pack_size``` gives size of data in bytes; used to dynamically allocate size of pack structure
 - copies data to new location (better to use data types)
+
+  <img src="figures/pack-unpack.png" alt="Expand" width="60%">
+
 
 ## Geometric Decomposition
 
@@ -117,9 +137,15 @@
 - cache line size, vector-unit size
   - related to stencil strip-based operations
 
+<img src="figures/partition.png" alt="Partitions" width="50%">
+
 ### Segment
 
 - like partition, but sections vary in size
+
+  <img src="figures/segment.png" alt="Segments" width="50%">
+
+
 - more complex functions for data manipulation must be used
 - ```MPI_Scatterv``` instead of ```MPI_Scatter```, ...
 - segmentation along each dimension is possible (kD-tree)
@@ -131,11 +157,17 @@
     - index of the last element in segment $s$: $i_H = \lfloor N/S \rfloor (s+1) + \min(s+1, r) - 1$
     - complex function to determine to which segment belongs element $i$:
     $s = \min⁡(\lfloor i / (\lfloor N/S \rfloor + 1) \rfloor, \lfloor (i-r) / \lfloor N/S \rfloor\rfloor)$
+
+    <img src="figures/partition-larger-first.png" alt="Segments - larger first approach" width="60%">
+
   - mixed approach
     - larger and smaller segments are mixed
     - index of first element in segment $s$: $i_L = \lfloor s N / S \rfloor$
     - index of last element in segment $s$: $i_H = \lfloor (s+1) N / S \rfloor - 1$
     - element $i$ belongs to segment $s = \left\lfloor (S(i+1)-1)/N \right\rfloor$
+
+    <img src="figures/partition-mixed.png" alt="Segments - mixed approach" width="60%">
+
 - segments in two dimensions
   - row-wise stripped
   - column-wise stripped
@@ -145,6 +177,9 @@
     - exchange of edge elements between neighbouring segments
     - row stripped and column stripped: $2\times N$
     - checkerboard: $4\times \lceil N/\sqrt{S}\rceil$
+
+    <img src="figures/segments-2D.png" alt="Segments in 2D" width="75%">
+
 - exchange of bordering elements
   - new cell value depends on the values of its neighbours
   - exchanging one element needed for next step od communication
@@ -153,7 +188,9 @@
     - some additional computation
   - latency hiding
     - initialization of communication cost more than some additional data transfer and computation
-  
+
+    <img src="figures/stencil-comm.png" alt="Exchange of bordering elements" width="75%">
+
 ## Array of Structures (AoS) vs Structures of Arrays (SoA)
 
 - common data representation approach (AoS)
@@ -170,6 +207,9 @@
     - collection of masses, positions, velocities, accelerations, ...
   - data is now contiguous, better aligned
   - better way of representing data when majority of data is used
+
+<img src="figures/aos-soa.png" alt="AoS and SoA" width="75%">
+
 - conversion between AoS and SoA is not an easy task
   - significant changes in data structures
   - brakes data encapsulation
@@ -178,16 +218,4 @@
   - important for AoS
   - for SoA can be added, but is usually not really needed
 
-## MPI: Derived Data Types
-
-- any data layout can be described with them
-- derived from basic MPI data types
-  - for passing data organized as AoS
-- allow for efficient transfer of non-contiguous and heterogeneous data
-  - example: halo exchange
-  - during communication MPI data type tells MPI system where to get the data and where to put it
-- both solutions help user to avoid hand-coding
-- libraries should have efficient implementations
-  - more general data types are slower
-  - no need for ```MPI_Pack``` and ```MPI_Unpack```
-  - overhead is reduced as only one long message is sent
+<img src="figures/aos-soa-padding.png" alt="Padding when using AoS and SoA" width="75%">
