@@ -125,12 +125,12 @@
 - segmentation along each dimension is possible (kD-tree)
 - distributing $N$ elements to $S$ segments
   - larger-first approach
-    - first $r=n \mod S$ segments have one element more, $\left\lceil N/S\right\rceil$
-    - other segments are of size $\lfloor 𝑁/S \rfloor
+    - first $r= (n\mod S)$ segments have one element more, $\left\lceil N/S\right\rceil$
+    - other segments are of size $ \lfloor 𝑁/S \rfloor $
     - index of the first element in segment $s$: $i_L = \lfloor N/S \rfloor s + \min(s, r)$
     - index of the last element in segment $s$: $i_H = \lfloor N/S \rfloor (s+1) + \min(s+1, r) - 1$
-    - complex function to determine to which segment belongs element $i$: 
-    $s = \min⁡(\lfloor i / (\lfloor N/S \rfloor + 1)\rfloor, \lfloor (i-r) / \lfloor N/S\rfloor \rfloor) $
+    - complex function to determine to which segment belongs element $i$:
+    $s = \min\left⁡(\left\lfloor i / (\lfloor N/S \rfloor + 1)\right\rfloor, \left\lfloor (i-r) / \lfloor N/S\rfloor \right\rfloor\right) $
 
 ## xxx
 
