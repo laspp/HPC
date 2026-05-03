@@ -130,12 +130,53 @@
     - index of the first element in segment $s$: $i_L = \lfloor N/S \rfloor s + \min(s, r)$
     - index of the last element in segment $s$: $i_H = \lfloor N/S \rfloor (s+1) + \min(s+1, r) - 1$
     - complex function to determine to which segment belongs element $i$:
-    $s = \min ⁡( \left\lfloor i / (\lfloor N/S \rfloor + 1) \right\rfloor, \left\lfloor (i-r) / \lfloor N/S \rfloor \right\rfloorß)$
+    $s = \min⁡(\lfloor i / (\lfloor N/S \rfloor + 1) \rfloor, \lfloor (i-r) / \lfloor N/S \rfloor\rfloor)$
   - mixed approach
     - larger and smaller segments are mixed
     - index of first element in segment $s$: $i_L = \lfloor s N / S \rfloor$
     - index of last element in segment $s$: $i_H = \lfloor (s+1) N / S \rfloor - 1$
     - element $i$ belongs to segment $s = \left\lfloor (S(i+1)-1)/N \right\rfloor$
+- segments in two dimensions
+  - row-wise stripped
+  - column-wise stripped
+  - checkerboard
+  - example: halo exchange
+    - square matrix of size $N\times N$
+    - exchange of edge elements between neighbouring segments
+    - row stripped and column stripped: $2\times N$
+    - checkerboard: $4\times \lceil N/\sqrt{S}\rceil$
+- exchange of bordering elements
+  - new cell value depends on the values of its neighbours
+  - exchanging one element needed for next step od communication
+  - exchanging $k$ elements
+    - exchange is needed only on every $k$-th step
+    - some additional computation
+  - latency hiding
+    - initialization of communication cost more than some additional data transfer and computation
+  
+## Array of Structures (AoS) vs Structures of Arrays (SoA)
+
+- common data representation approach (AoS)
+  - object-oriented programming
+  - declare structures representing some object
+    - vehicle has mass, position, velocity, acceleration, ...
+  - create collection of that structure
+    - vehicles can be presented as an array of data type vehicle
+  - data is not aligned well for transfer, vectorization
+  - nice for writing code, also beneficial when data is randomly read
+- alternative approach (SoA)
+  - for data transfer and vectorization, data layout may have to be modified for better performance
+  - declare structure of collections
+    - collection of masses, positions, velocities, accelerations, ...
+  - data is now contiguous, better aligned
+  - better way of representing data when majority of data is used
+- conversion between AoS and SoA is not an easy task
+  - significant changes in data structures
+  - brakes data encapsulation
+- data can be padded for alignment
+  - improves data transfer, can be adjusted to cache line, simplifies vectorization
+  - important for AoS
+  - for SoA can be added, but is usually not really needed
 
 ## xxx
 
