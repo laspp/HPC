@@ -23,7 +23,7 @@
     - ```{(type 0, displacement 0), ..., (type N-1, displacement N-1)}```
     - example: ```{(int, 0}, (double, 8), (char, 16)}```
 
-      <img src="figures/typemap.png" alt="Typemap" width="60%">
+      <img src="figures/typemap.png" alt="Typemap" width="70%">
 
 - data type routines
   - construction
@@ -43,7 +43,7 @@
 
 - output data type is obtained by concatenating defined number of copies of input data type
 
-  <img src="figures/contigous.png" alt="MPI_Type_contigous" width="50%">
+  <img src="figures/contigous.png" alt="MPI_Type_contigous" width="35%">
 
 - constructs a ```typemap``` for output data type consisting of replications of input data type
 - example: matrix row as a data type
@@ -81,7 +81,7 @@
 - creates a data type which is a sub-array of an array
 - useful for column-wise distribution of data
 
-    <img src="figures/subarray.png" alt="MPI_Type_create_subarray" width="35%">
+    <img src="figures/subarray.png" alt="MPI_Type_create_subarray" width="30%">
 
 ### ```MPI_Type_create_struct```
 
