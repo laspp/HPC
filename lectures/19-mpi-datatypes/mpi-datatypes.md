@@ -23,7 +23,7 @@
     - ```{(type 0, displacement 0), ..., (type N-1, displacement N-1)}```
     - example: ```{(int, 0}, (double, 8), (char, 16)}```
 
-      <img src="figures/typemap.png" alt="Typemap" width="50%">
+      <img src="figures/typemap.png" alt="Typemap" width="60%">
 
 - data type routines
   - construction
@@ -43,12 +43,12 @@
 
 - output data type is obtained by concatenating defined number of copies of input data type
 
-  <img src="figures/contigouus.png" alt="MPI_Type_contigous" width="50%">
+  <img src="figures/contigous.png" alt="MPI_Type_contigous" width="50%">
 
 - constructs a ```typemap``` for output data type consisting of replications of input data type
 - example: matrix row as a data type
 
-  <img src="figures/contigouus-example.png" alt="MPI_Type_contigous example" width="60%">
+  <img src="figures/contigous-example.png" alt="MPI_Type_contigous example" width="60%">
 
 ### ```MPI_Type_vector```
 
@@ -62,7 +62,7 @@
 
 - example: matrix column as a data type
 
-    <img src="figures/vector-example.png" alt="MPI_Type_vector example" width="60%">
+    <img src="figures/vector-example.png" alt="MPI_Type_vector example" width="50%">
 
 - example: halo exchange with MPI data types
   - code: [halo.c](files/halo/halo.c)
@@ -81,7 +81,7 @@
 - creates a data type which is a sub-array of an array
 - useful for column-wise distribution of data
 
-    <img src="figures/subarray.png" alt="MPI_Type_create_subarray" width="50%">
+    <img src="figures/subarray.png" alt="MPI_Type_create_subarray" width="35%">
 
 ### ```MPI_Type_create_struct```
 
@@ -101,7 +101,7 @@
   - ```MPI_Type_get_extent```
   - ```MPI_Get_address```
 
-  <img src="figures/extent.png" alt="Extent" width="50%">
+  <img src="figures/extent.png" alt="Extent" width="45%">
 
 ### ```MPI_Type_create_resized```
 
