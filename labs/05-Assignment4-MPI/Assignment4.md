@@ -85,6 +85,7 @@ Implement a parallel Lenia simulation in C/C++ using MPI that evolves the initia
 - Parallelize the algorithm with MPI and use row-wise work distribution.
 - Measure the execution time of the algorithm for different grid sizes and number of cores. Use the following grid sizes: 128x128, 512x512, 1024x1024, 2048x2048, 4096x4096, on 1, 2, 4, 16, and 32 cores. Run the algorithm multiple times and average the time measurements to obtain representative results. Benchmark the algorithm on 100 simulation steps.
 - Compute the speed-up $S=t_s/t_p$ of your algorithm; $t_s$ is the execution time of the sequential algorithm, and $t_p$ is the execution time of the parallel algorithm.
+- Support the option of generating the animation. Use collectives to gather results at the root process, which then generates the GIF.
 - Write a short report (1-2 pages) summarising your solution and presenting the measurements performed on the cluster. The main focus should be presenting and explaining the time measurements and speed-ups.
 - Hand in your code and the report to ucilnica through the appropriate form by the specified deadline (**26. 5. 2026**) and defend your code and report during labs in the same week.
 
