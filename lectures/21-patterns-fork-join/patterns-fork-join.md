@@ -121,17 +121,17 @@
 
 - majority of problems can be described with relation
 
-  $t(N) = at({N\over b}) + cN^d\quad, \quad t(1)=\mathrm{e}$
+  $T(N) = at({n\over b}) + cn^d\quad, \quad T(1)=\mathrm{e}$
 
-- task on level $l$ has $cN^d$ work itself and task on level $l+1$ has $ac(\frac{N}{b})^d$ work itself
+- task on level $l$ has $cn^d$ work itself and task on level $l+1$ has $ac(\frac{n}{b})^d$ work itself
 - asymptotic solutions
-  - based on proportion $r = \frac{t_{l+1}(N)}{t_l(N)} = \frac{a}{b^d}$
-  - case 1: $r > 1$: $t(N) = O(N^{\log_b A})$
+  - based on proportion $r = \frac{T_{l+1}(n)}{T_l(n)} = \frac{a}{b^d}$
+  - case 1: $r > 1$: $T(n) = O(n^{\log_b a})$
     - the work exponentially increases with depth, bottom levels dominate
-  - case 2: $r = 1$: $t(N) = O(N^d \log_2 N)$
+  - case 2: $r = 1$: $T(n) = O(n^d \log_2 n)$
     - the work at each level is about the same
     - the work is proportional to the work at top level times the number of levels
-  - case 3: $r < 1$: $t(N) = O(N^d)$
+  - case 3: $r < 1$: $T(n) = O(n^d)$
     - the work exponentially decreases with depth, top levels dominate
 - examples with $𝑐 = 𝑑 = 1$
 
@@ -188,6 +188,7 @@
   - parallel algorithm: $T_{\infty}(n)= 1\cdot T_{\infty}(n/2) + n$
     - $T_{\infty}(2^k) = 2^k + T_{\infty}(2^{k-1}) = 2^k + 2^{k-1} + T_{\infty}(2^{k-2}) = \sum_{i=0}^k 2^{k-i} = 2^k\sum_{i=0}^k (\frac{1}{2})^i = 2^k \frac{1-(\frac{1}{2})^{k+1}}{1-\frac{1}{2}} = 2^{k+1}-1$
     - $T_{\infty}(n) = 2n-1$
+  - both equations follow the asymptotic solutions presented above
 - algorithm space complexity
   - serial solution needs less memory as it can reuse structures: $M_1(n) = M_1(\frac{n}{2}) + O(n)\quad, \quad M_1(1) = O(1)$
   - parallel solution needs to store some temporary values
