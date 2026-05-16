@@ -123,9 +123,9 @@
 
   $T(N) = at({n\over b}) + cn^d\quad, \quad T(1)=\mathrm{e}$
 
-- task on level $l$ has $cn^d$ work itself and task on level $l+1$ has $ac(\frac{n}{b})^d$ work itself
+- task on level $l$ has $cn^d$ work itself and task on level $l+1$ has $ac(\frac{n}{b})^d$ work itself giving proportion
+  $r = \frac{cn^d}{ac(\frac{n}{b})^d} = \frac{a}{b^d}$
 - asymptotic solutions
-  - based on proportion $r = \frac{T_{l+1}(n)}{T_l(n)} = \frac{a}{b^d}$
   - case 1: $r > 1$: $T(n) = O(n^{\log_b a})$
     - the work exponentially increases with depth, bottom levels dominate
   - case 2: $r = 1$: $T(n) = O(n^d \log_2 n)$
@@ -133,7 +133,7 @@
     - the work is proportional to the work at top level times the number of levels
   - case 3: $r < 1$: $T(n) = O(n^d)$
     - the work exponentially decreases with depth, top levels dominate
-- examples with $𝑐 = 𝑑 = 1$
+- examples with $c = d = 1$
 
 ### Karatsuba Polynomial Multiplication
 
