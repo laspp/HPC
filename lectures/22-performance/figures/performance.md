@@ -44,7 +44,7 @@
 
 ## Measure: Speedup
 
-- definition: $S(n, p) = \frac{t_s(n)}{t_p(n,p)}
+- definition: $S(n, p) = \frac{t_s(n)}{t_p(n,p)}$
   - $t_s(n)$ - time needed for serial computation
   - $t_p(n,p)$ - time needed for parallel computation
   - $n$ - problem size
@@ -67,18 +67,18 @@
 - for ideal work distribution: $E(n,p) = \frac{\sigma(n) + \varphi(n)}{p\sigma(n) + \varphi(n) + p\kappa(n,p)}$
 - measures the return of hardware investment by telling how well the hardware is used
 - usually $0 \leq E(n,p) \leq 1$
-- super-linear speedup
+- super-linear speedup with $E(n,p) > 1$
   - most commonly related to better use of cache
   - cooperation between workers can reduce time (earlier stopping)
 
 ## Measure: Cost
 
 - $C(n, p) = p \cdot t_p(n) = \frac{p\cdot t_s(n)}{S(n,p)} = \frac{t_s(n)}{E(n,p)}$
-- Efficient programs contribute to lower computation costs
+- efficient programs contribute to lower computation costs
 
 ## Amdahl's Law
 
-- determines speedup based on the portion of serial operations, $f=\frac{\sigma(n)}{\sigma(n)/\varphi(n)}$
+- determines speedup based on the portion of serial operations, $f=\frac{\sigma(n)}{\sigma(n) + \varphi(n)}$
 - neglects communication
 - speedup
 
@@ -111,7 +111,7 @@
   - ignores communication and memory access
   - assumes greedy scheduling
     - work is computation time of serial machine, $t_1(n) = t_s(n)$
-    - span is computation time on ideal parallel machine, $t_{\infyty} = t_p(n, \infty)$
+    - span is computation time on ideal parallel machine, $t_{\infty} = t_p(n, \infty)$
       - also named critical path, step complexity, depth
   - work-span model assumes that units of work are of the same time complexity
 - upper execution time limit
@@ -119,11 +119,11 @@
   - span law: $t_p(n,p) \geq t_{\infty}(n)$
   - combined:
 
-    $t_p(n,p) \geq \max(\frac{t_1(n)}{p}, \t_{\infty}(n))$
+    $t_p(n,p) \geq \max(\frac{t_1(n)}{p}, t_{\infty}(n))$
 
 - lower execution time limit follows Bren's theorem
   - problem can be ideally distributed to $q$ processors, but we have $p \leq q$
-  - some processors do additional work: $t_p(n,p) \leq t_p(n,q) + \frac{t_1(n)-t_p(n,q)}{p}
+  - some processors do additional work: $t_p(n,p) \leq t_p(n,q) + \frac{t_1(n)-t_p(n,q)}{p}$
   - simplifications
     - omit the second term, $\frac{t_p(n,q)}{p}$
     - with ideal machine $q=\infty$
@@ -139,14 +139,14 @@
 
   $\frac{1}{\frac{t_{\infty}(n)}{t_1(n)} + \frac{1}{p}} \leq S(n,p) \leq \min\left(p, \frac{t_1(n)}{t_{\infty}(n)}\right)$
 
-- example: 7 units of work, execution follows direct-acyclic graph
+- example: 7 units of work, execution follows direct-acyclic graph above
   - red: upper limit
   - yellow: lower limit
-  - blue: Amdahl, $f=2/7$ (all but first and last task can be executed in parallel)
+  - blue: Amdahl, $f=\frac{2}{7}$ (all but first and last task can be executed in parallel)
 
 ## Parallel slack
 
-- $PS = \frac{S(n,\infyty)}{p} = \frac{t_s(n)}{p\cdot t_p(n, \infty)}$
+- $PS = \frac{S(n,\infty)}{p} = \frac{t_s(n)}{p\cdot t_p(n, \infty)}$
 - $PS = 8$ works well in practice
 
 ## Scalability (iso-efficiency)
@@ -160,7 +160,7 @@
 
   $S(n,p) \leq \frac{p(\sigma(n) + \varphi(n))}{\sigma(n) + \varphi(n) + (p-1)\sigma(n) + p\kappa(n,p)}$
   
-- communication overheaf $T_{\mathrm{oh}} = (p-1)\sigma(n) + p\kappa(n,p)$
+- communication overhead, $T_{\mathrm{oh}} = (p-1)\sigma(n) + p\kappa(n,p)$
 - efficiency should be maintained
 
   $E(n,p) = \frac{S(n,p)}{p} \leq \frac{T_s(n)}{T_s(n) + T_{\mathrm{oh}}(n,p)} = \frac{1}{1 + \frac{T_{\mathrm{oh}}(n,p)}{T_s(n)}}$
@@ -170,7 +170,7 @@
   $T_s(n) \geq \frac{E(n,p)}{1 - E(n,p)} T_{\mathrm{oh}}(n,p) = CT_{\mathrm{oh}}(n,p)$
 
 - to maintain good scalability, efficiency should be constant
-  - $T_{\mathrm{oh}} increases with $p$
+  - $T_{\mathrm{oh}}$ increases with $p$
   - inequality can only be satisfied by increasing problem size $n$
 
 - scalability function (iso-effciency)
@@ -179,7 +179,7 @@
   - memory requirements are given by function $M(n)$
   - to maintain efficiency, memory requirements per worker are expressed by the scalability function
   
-    $M(g(p))/p$
+    $\frac{M(g(p)}{p}$
 
 - example: reduce with tiling
   - use serial algorithm where possible
@@ -206,20 +206,22 @@
     - total execution time equals $t_p(n) = (\chi+\lambda)\lceil\log_2 n\rceil$
   - tiled parallel reduction using $p$ tasks
     - each task performs $\lceil n/p \rceil -1$ sequential reduce operations
-    - intermediate results are reduced by three-like scheme in $\lceil\log_2 p\rceil steps
+    - intermediate results are reduced by three-like scheme in $\lceil\log_2 p\rceil$ steps
     - total execution time equals $t_p(n,p) = \chi\left(\left\lceil \frac{n}{p} \right\rceil - 1\right) + (\chi + \lambda)\lceil \log_2 p \rceil$
   - scalability
     - overhead: $t_{\mathrm{oh}}(n,p) = (p-1)\sigma(n) + p\kappa(n,p)$
       - $\sigma=0$ (all tasks can run in parallel)
-      - $\kappa(n,p) = \lambda\ceil\log_2 p$
+      - $\kappa(n,p) = \lambda\lceil\log_2 p\rceil$
     - iso-efficiency condition
-      $t_s(n) \geq Ct_{\mathrm{oh}}(n,p) \Rightarrow \chi(n-1) \geq Cp\lambda\lceil\log_2 p\rceil \Rightarrow n \geq C'p\log_2 p$
-    - from the above we get $n \geq g(p) \Rightarrow g(p) = C'p\log_2 p$
-    - reduction memory requirements: $M(n) = K\cdot n$
-    - scalability function: $\frac{M(n)}{p} \geq \frac{M(g(p))}{p} = \frac{KC'p\log_2 p}{p} \Rightarrow \frac{M(n)}{p} = C''\log_2 p$
+      $t_s(n) \geq Ct_{\mathrm{oh}}(n,p) \Rightarrow \chi(n-1) \geq Cp\lambda\lceil\log_2 p\rceil$ for reduction becomes
+      $n \geq C'p\log_2 p$ with $g(p) = C'p\log_2 p$
+    - reduction memory requirements increase linearly with the number of elements: $M(n) = E n$
+    - scalability function for reduction thus becomes
+
+      $\frac{M(n)}{p} \geq \frac{M(g(p))}{p} = \frac{EC'p\log_2 p}{p} = C''\log_2 p$
+
       - reduction is not ideally scalable
-      - suppose work is doubled and number of processed is doubled
+      - suppose that the number of workers and number of operands are doubled
         - quantity of work per processors remains equal, $\chi\left(\left\lceil\frac{2n}{2p}\right\rceil - 1\right) = \chi\left(\left\lceil\frac{n}{p}\right\rceil - 1\right)$
         - one additional reduction step is required, $(\chi + \lambda)\lceil\log_2 2p\rceil = (\chi + \lambda)(\lceil\log_2 p\rceil + 1)$
-
-  
+        - doubling number of operands is not enough - to satisfy $n_1=C''p\log_2 p$ and $n_2=C''2p\log_2 (2p)$, we should have $n_2 = 2n_1 + 2C''p$ operands
