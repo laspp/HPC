@@ -14,13 +14,13 @@
     - after joining, only one flow continues
   - example: a task is split to two subtasks that executed in parallel and joined afterward
 
-    <img src="figures/fork-join.png" alt="Fork-join pattern" width="30%">
+    <img src="figures/fork-join.png" alt="Fork-join pattern" width="25%">
 
 ## Divide-and-conquer
 
 - typical divide-and-conquer scheme
 
-    <img src="figures/divide-conquer.png" alt="Devide-and-conquer patternFork-join scheme" width="80%">
+    <img src="figures/divide-conquer.png" alt="Devide-and-conquer patternFork-join scheme" width="65%">
 
   - sub-problems must be independent
 
@@ -100,7 +100,7 @@
   - area of trapezoid spanning from the lower to the upper bound (red)
   - sum of area of trapezoid spanning from the lower bound to the middle and the area of trapezoid spanning from the middle to the upper bound (green)
 
-    <img src="figures/adapt-quad.png" alt="Adaptive wuadrature using trapezoidal rule" width="65%">
+    <img src="figures/adapt-quad.png" alt="Adaptive wuadrature using trapezoidal rule" width="60 %">
 
 - if difference is grater than allowed, split interval to two halves and repeat quadrature on each halve
 - code
