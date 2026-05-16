@@ -62,7 +62,7 @@
     - waits for all tasks to join
   - tasks can only be used inside a parallel region
     - only one thread (master) starts the execution
-  - example: function A and its call from the main routine
+  - example: function `divideAndConquer` and its call from the main routine
 
     ```C
     solution divideAndConquer(problem) {
@@ -123,18 +123,14 @@
 
   $t(N) = at({N\over b}) + cN^d\quad, \quad t(1)=\mathrm{e}$
 
-- task on level $l$ has $cN^d$ work itself
-- task on level $l+1$ has ac(N/b)^d$ work
-- proportion
-
-  $r = \frac{t_{l+1}(N)}{t_l(N)} = \frac{a}{b^d}$
-
+- task on level $l$ has $cN^d$ work itself and task on level $l+1$ has $ac(\frac{N}{b})^d$ work itself
 - asymptotic solutions
-  - case 1: $r > 1: t(N) = O(N^\log_b A)$
+  - based on proportion $r = \frac{t_{l+1}(N)}{t_l(N)} = \frac{a}{b^d}$
+  - case 1: $r > 1: t(N) = O(N^{\log_b A})$
     - the work exponentially increases with depth, bottom levels dominate
-  - case 2: $r = 1: t(N) = O(N^d ^log_2 N)$
+  - case 2: $r = 1: t(N) = O(N^d \log_2 N)$
     - the work at each level is about the same
     - the work is proportional to the work at top level times the number of levels
-  - case 3: $r < 1: t(N) = O(N^d)$𝑟<1:𝑡(𝑁)=𝑂(𝑁^𝑑 )$
+  - case 3: $r < 1: t(N) = O(N^d)$
     - the work exponentially decreases with depth, top levels dominate
-- examples, $𝑐 = 𝑑 = 1$
+- examples with $𝑐 = 𝑑 = 1$
