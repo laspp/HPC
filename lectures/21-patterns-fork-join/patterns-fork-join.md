@@ -123,8 +123,8 @@
 
   $T(N) = at({n\over b}) + cn^d\quad, \quad T(1)=\mathrm{e}$
 
-- task on level $l$ has $cn^d$ work itself and task on level $l+1$ has $ac(\frac{n}{b})^d$ work itself giving proportion
-  $r = \frac{cn^d}{ac(\frac{n}{b})^d} = \frac{a}{b^d}$
+- task on level $l$ has $cn^d$ work itself and task on level $l+1$ has $ac(\frac{n}{b})^d$ work itself, giving proportion
+  $r = \frac{ac(\frac{n}{b})^d}{cn^d} = \frac{a}{b^d}$
 - asymptotic solutions
   - case 1: $r > 1$: $T(n) = O(n^{\log_b a})$
     - the work exponentially increases with depth, bottom levels dominate
