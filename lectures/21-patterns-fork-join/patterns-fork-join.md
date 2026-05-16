@@ -217,5 +217,9 @@
 
   $\left[\mathbf{A} \right] \times \left[ \mathbf{B}_0]\ \mathbf{B}_1 \right] = \left[ \mathbf{A}\times \mathbf{B}_0\ \mathbf{A}\times \mathbf{B}_1 \right]$
 
-  $\stackrel{A}{B}$
+  $$\stackrel{A}{B}$$
+
+  ```math
+  \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)
+  ```  
 
