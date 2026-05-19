@@ -89,5 +89,5 @@
 
 - Week 13:
   - lectures:
-    [Performance Measures]
+    [Performance Measures](lectures/22-performance/performance.md)
   - labs:
