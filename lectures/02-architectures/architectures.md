@@ -38,7 +38,7 @@
 - virtual memory
   - extension of main memory
   - each process sees its own private address space
-  - memory is divided into pages for simpler OS management (tipical size 2MB)
+  - memory is divided into pages for simpler OS management (tipical size 4KiB)
   - page swapping and page faults when the size of virtual memory is grater than the size of physical
     - significantly slower access than to main memory (1,000,000 times), even greater need for data locality
   - rapid virtual to physical memory address mapping with the help of translation lookaside buffer (TLB)
